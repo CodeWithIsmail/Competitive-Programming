@@ -61,63 +61,19 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, j;
-        cin >> n;
-        ll a[n], b[n];
-        map<ll, ll> checkB;
-        set<ll> canSum;
-        for (i = 0; i < n; i++)
+        ll n, target, i, j;
+        cin >> n >> target;
+        ll pos = max(0ll, n - 2);
+        if (target > pos)
+            cout << "-1";
+        else
         {
-            cin >> a[i];
+            ll count = n - target - 1;
+            for (i = n; i > n - count; i--)
+                cout << i << " ";
+            for (i = 1; i <= n - count; i++)
+                cout << i << " ";
         }
-        for (i = 0; i < n; i++)
-        {
-            cin >> b[i];
-            checkB[b[i]]++;
-        }
-        for (i = 0; i < n; i++)
-        {
-            for (j = 0; j < n; j++)
-            {
-                canSum.insert(a[i] + b[j]);
-            }
-        }
-        vpl ans;
-        bool an = false;
-        for (auto x : canSum)
-        {
-            //  cout << x << " ";
-            ll target = x;
-            map<ll, ll> tempCheck = checkB;
-            bool poss = true;
-            for (i = 0; i < n; i++)
-            {
-                ll need = target - a[i];
-                if (tempCheck[need] > 0)
-                {
-                    tempCheck[need]--;
-                    ans.push_back({a[i], need});
-                }
-                else
-                {
-                    ans.clear();
-                    poss = false;
-                    break;
-                }
-            }
-            if (poss)
-            {
-                an = true;
-                for (auto y : ans)
-                    cout << y.first << " ";
-                cout << "\n";
-                for (auto y : ans)
-                    cout << y.second << " ";
-                cout << "\n";
-                break;
-            }
-        }
-        if (!an)
-            cout << "-1\n";
+        cout << "\n";
     }
 }
