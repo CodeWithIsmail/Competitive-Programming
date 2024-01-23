@@ -54,58 +54,80 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+ll n, k;
+const ll mx = 1e5 + 123;
+vector<vector<ll>> v(mx);
+ll a[mx];
+bool visited[mx];
+ll ans = 0;
+ll leaf[mx];
+
+void makeTrue(ll current)
+{
+    if (visited[current])
+        return;
+    visited[current] = true;
+    for (auto x : v[current])
+    {
+        makeTrue(x);
+    }
+}
+void dfs(ll count, ll current)
+{
+    if (a[current] == 1)
+        count++;
+    else
+        count = 0;
+
+    if (visited[current])
+        return;
+    visited[current] = true;
+    if (count > k)
+    {
+        for (auto x : v[current])
+        {
+            makeTrue(x);
+        }
+    }
+    if ( current!=1 && leaf[current] == 1 && count <= k)
+    {
+        ans++;
+    }
+    for (auto x : v[current])
+    {
+        dfs(count, x);
+    }
+}
 int main()
 {
     optimize();
-    ll n, i;
-    cin >> n;
-    string a, b;
-    cin >> a >> b;
-    ll countA = 0, countB = 0, count1 = 0, ans = 0;
+    ll i;
+    cin >> n >> k;
+    for (i = 1; i <= n; i++)
+        cin >> a[i];
 
-    for (i = 0; i < n; i++)
+    for (i = 1; i < n; i++)
     {
-        if (a[i] == 'A')
-        {
-            countA++;
-        }
-        else
-        {
-            if (count1 > 0)
-            {
-                ans++;
-                count1--;
-            }
-            countB++;
-        }
-
-        if (a[i] == 'A' && b[i] == 'B')
-        {
-            if (count1 > 0)
-            {
-                ans++;
-                count1--;
-            }
-            else
-            {
-                if (countA > 0)
-                {
-                    ans++;
-                }
-                else
-                {
-                    cout << -1;
-                    return 0;
-                }
-            }
-        }
-        else if (a[i] == 'B' && b[i] == 'A')
-        {
-            count1++;
-        }
+        ll a, b;
+        cin >> a >> b;
+        v[a].pb(b);
+        v[b].pb(a);
+        leaf[a]++, leaf[b]++;
     }
-    // cout<<count1<<" ";
-    if (count1 > 0)
-        ans = -1;
+    // for (i = 1; i <= n; i++)
+    // {
+    //     cout << i << ": ";
+    //     for (auto x : v[i])
+    //     {
+    //         cout << x << " ";
+    //     }
+    //     cout << "\n";
+    // }
+    for (i = 1; i <= n; i++)
+    {
+        if (!visited[i])
+            dfs(0, i);
+    }
+
     cout << ans;
 }
