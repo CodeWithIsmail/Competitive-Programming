@@ -61,12 +61,15 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
-        cin >> n;
-        if (n < 3 || n == 5)
-            cout << "NO";
-        else
-            cout << "YES";
+        ll n, k, i;
+        cin >> n >> k;
+        ll x = n / k;
+        ll temp = x;
+        while (k--)
+        {
+            cout << temp << " ";
+            temp += x;
+        }
         cout << "\n";
     }
 }

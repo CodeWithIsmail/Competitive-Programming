@@ -61,23 +61,31 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, m;
-        cin >> n >> m;
-        ll a[n];
-        for (i = 0; i < n; i++)
-            cin >> a[i];
-
-        ll ans = 0;
-        ll sum = 0;
+        ll n, i;
+        string a;
+        cin >> n >> a;
+        bool onefind = false;
+        ll count = 0;
         for (i = 0; i < n; i++)
         {
-            sum += a[i];
-            if (sum >= m)
+            if (a[i] == '1')
+                onefind = true;
+            if (a[i] == '1')
+                count++;
+            if (i == n - 1)
             {
-                ans++;
-                sum = 0;
+                if (count == n)
+                    cout << "YES\n";
+                else
+                    cout << "NO\n";
+            }
+            else
+            {
+                if (onefind)
+                    cout << "IDK\n";
+                else
+                    cout << "NO\n";
             }
         }
-        cout << ans << "\n";
     }
 }

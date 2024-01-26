@@ -53,31 +53,33 @@ const ll infLL = 9000000000000000000;
     cout.unsetf(ios::floatfield); \
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
-
+const ll mx = 2001;
+bool check[mx][mx];
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
-    {
-        ll n, i, m;
-        cin >> n >> m;
-        ll a[n];
-        for (i = 0; i < n; i++)
-            cin >> a[i];
+    ll n, i, j, a, b, ans = 0;
+    cin >> n;
+    vpl v;
 
-        ll ans = 0;
-        ll sum = 0;
-        for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
+    {
+        cin >> a >> b;
+        a += 1000, b += 1000;
+        v.pb({a, b});
+        check[a][b] = 1;
+    }
+    for (i = 0; i < n; i++)
+    {
+        for (j = i + 1; j < n; j++)
         {
-            sum += a[i];
-            if (sum >= m)
+            ll x = v[i].first + v[j].first, y = v[i].second + v[j].second;
+            if (x % 2 == 0 && y % 2 == 0)
             {
-                ans++;
-                sum = 0;
+                if (check[x / 2][y / 2] == true)
+                    ans++;
             }
         }
-        cout << ans << "\n";
     }
+    cout << ans;
 }

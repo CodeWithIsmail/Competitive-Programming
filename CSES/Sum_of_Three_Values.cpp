@@ -1,53 +1,96 @@
+///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
+
+///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
+
 #include <bits/stdc++.h>
 using namespace std;
+
+// Data Type:
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+typedef pair<int, int> pii;
+typedef pair<double, double> pdd;
+typedef pair<ll, ll> pll;
+typedef vector<pii> vpi;
+typedef vector<pll> vpl;
+
+// Shortcut:
+#define min3(a, b, c) min(a, min(b, c))
+#define max3(a, b, c) max(a, max(b, c))
+#define min4(a, b, c, d) min(a, min(b, min(c, d)))
+#define max4(a, b, c, d) max(a, max(b, max(c, d)))
+#define pb push_back
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define sz(x) (int)x.size()
+#define mem(a, b) memset(a, b, sizeof(a))
+#define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
+#define YES printf("YES");
+#define Yes printf("Yes");
+#define NO printf("NO");
+#define No printf("No");
+
+// Const value:
+const double PI = acos(-1);
+const double eps = 1e-9;
+const int inf = 2000000000;
+const ll infLL = 9000000000000000000;
+#define MOD 1000000007
+
+// Optimize cin cout:
+#define optimize()                \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0);
+
+// Fraction:
+#define fraction()                \
+    cout.unsetf(ios::floatfield); \
+    cout.precision(10);           \
+    cout.setf(ios::fixed, ios::floatfield);
+
 int main()
 {
-    int n, sum, i, j, s1, s2, s3, check = 0;
-    cin >> n >> sum;
-    int a[n];
-    map<int, int> count;
+    optimize();
+    ll n, k, i, j;
+    cin >> n >> k;
+    ll a[n];
+    map<ll, vl> index;
     for (i = 0; i < n; i++)
     {
         cin >> a[i];
-        count[a[i]]++;
+        index[a[i]].pb(i + 1);
     }
-
+    sort(a, a + n);
+    // for (i = 0; i < n; i++)
+    //     cout << a[i] << " ";
+    // cout << "\n"; // 1 2 3
     for (i = 0; i < n; i++)
     {
-        for (j = 0; j < n; j++)
+        for (j = i + 1; j < n; j++)
         {
-            s1 = a[i];
-            s2 = a[j];
-            s3 = sum - s1 - s2;
-
-            if (
-                (s1 == s2 && s2 == s3 && count[s1] > 2) ||
-                (s1 == s2 && s2 != s3 && count[s1] > 1 && count[s3] > 0) ||
-                (s1 == s3 && s2 != s3 && count[s1] > 1 && count[s2] > 0) ||
-                (s2 == s3 && s2 != s1 && count[s2] > 1 && count[s1] > 0) ||
-                (s1 != s2 && s2 != s3 && s1 != s3 && count[s1] > 0 && count[s2] > 0 && count[s3] > 0))
-            {
-                cout << i + 1 << " " << j + 1 << " ";
-                a[i] = a[j] = 0;
-                check = 1;
+            ll rem = k - a[i] - a[j];
+            if (rem < a[j])
                 break;
-            }
-        }
-        if (check)
-            break;
-    }
-
-    if (check)
-    {
-        for (i = 0; i < n; i++)
-        {
-            if (a[i] == s3)
+            //  cout << rem << " ";
+            ll in = lower_bound(a + j + 1, a + n, rem) - a;
+            //  cout << in << " ";
+            if (in < n && a[in] == rem)
             {
-                cout << i + 1;
-                break;
+                cout << index[a[i]].back() << " ";
+                index[a[i]].pop_back();
+                cout << index[a[j]].back() << " ";
+                index[a[j]].pop_back();
+                cout << index[rem].back();
+                return 0;
             }
+            cout << "\n";
         }
     }
-    else
-        cout << "IMPOSSIBLE";
+    cout << "IMPOSSIBLE";
 }
