@@ -17,12 +17,6 @@ typedef pair<ll, ll> pll;
 typedef vector<pii> vpi;
 typedef vector<pll> vpl;
 
-// pbds
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
-
-typedef tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-
 // Shortcut:
 #define min3(a, b, c) min(a, min(b, c))
 #define max3(a, b, c) max(a, max(b, c))
@@ -63,32 +57,50 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
-    {
-        ll n, i, ans = 0, temp;
-        ordered_set x, y;
-        vl v, b;
-        map<ll, ll> count;
+    ll n, m, k, i;
+    cin >> n >> m >> k;
 
-        cin >> n;
-        for (i = 0; i < n; i++)
-        {
-            cin >> temp;
-            v.pb(temp), b.pb(temp);
-        }
-        for (i = 0; i < n; i++)
-        {
-            ans += x.size() - x.order_of_key(v[i]);
-            x.insert(v[i]);
-        }
-        for (i = n-1; i >= 0; i--)
-        {
-            ans += y.order_of_key(b[i]) + count[b[i]];
-            y.insert(b[i]);
-            count[b[i]]++;
-        }
-        cout << ans / 2 << "\n";
+    vl a, b, c, d;
+    a.pb(0);
+    b.pb(0);
+    c.pb(0);
+    for (i = 0; i < n; i++)
+    {
+        ll temp;
+        cin >> temp;
+        a.pb(temp);
+    }
+    for (i = 0; i < m; i++)
+    {
+        ll temp;
+        cin >> temp;
+        b.pb(temp);
+    }
+    for (i = 1; i <= m; i++)
+    {
+        c.pb(b[i] + c[i - 1]);
+    }
+    for (i = 0; i <= m; i++)
+    {
+        //  cout << c[i] << " ";
+    }
+    for (i = 0; i <= m; i++)
+    {
+        cout << b[i] << " ";
+    }
+    reverse(all(b));
+    d.pb(0);
+    cout << "\n";
+    for (i = 0; i <= m; i++)
+    {
+        cout << b[i] << " ";
+    }
+    for (i = 1; i <= m; i++)
+    {
+        d.pb(b[i - 1] + d[i - 2]);
+    }
+    for (i = 0; i <= m; i++)
+    {
+        cout << d[i] << " ";
     }
 }
