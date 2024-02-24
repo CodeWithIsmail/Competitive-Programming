@@ -56,45 +56,92 @@ const ll infLL = 9000000000000000000;
 
 int main()
 {
-    optimize();
-    ll t;
+
+    int t;
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
+        ll n, k;
         cin >> n >> k;
-        ll a[n], b[n], need[n];
-        map<ll, ll> total;
-        for (i = 0; i < n; i++)
+        ll hel[n];
+        for (int i = 0; i < n; i++)
         {
-            cin >> a[i];
+            cin >> hel[i];
         }
-        for (i = 0; i < n; i++)
+
+        map<ll, ll> m;
+        int mon[n];
+
+        for (int i = 0; i < n; i++)
         {
-            cin >> b[i];
-            b[i] = abs(b[i]);
-            total[b[i]] += a[i];
+            ll x;
+            cin >> x;
+            if (x < 0)
+                x = x * -1;
+            mon[i] = x;
+            m[x] = m[x] + hel[i];
         }
-        ll rem = 0;
-        ll last = 0;
-        bool ans = true;
-        for (auto x : total)
+
+        ll cnt = 0;
+        ll p = 0;
+        int flag = 0;
+        for (auto &ele : m)
         {
-            ll can = (x.first - last) * k + rem;
-            rem = can - x.second;
-            last = x.first;
-            //    cout << rem << " ";
-            if (rem < 0)
+            ll extra = cnt + ((ele.first - p) * k);
+            if (extra < ele.second)
             {
-                cout << "NO\n";
-                ans = false;
+                flag = 1;
                 break;
             }
-            //    cout << x.first << " " << x.second << "\n";
+            ll remain = extra - ele.second;
+            cnt = remain;
+            p = ele.first;
         }
-        if (ans)
-            cout << "YES\n";
 
-        //   cout << "\n";
+        if (flag == 1)
+            cout << "NO" << endl;
+        else
+            cout << "YES" << endl;
     }
+
+    // optimize();
+    // ll t;
+    // cin >> t;
+    // while (t--)
+    // {
+    //     ll n, k, i;
+    //     cin >> n >> k;
+    //     ll a[n], b[n], need[n];
+    //     map<ll, ll> total;
+    //     for (i = 0; i < n; i++)
+    //     {
+    //         cin >> a[i];
+    //     }
+    //     for (i = 0; i < n; i++)
+    //     {
+    //         cin >> b[i];
+    //         b[i] = abs(b[i]);
+    //         total[b[i]] += a[i];
+    //     }
+    //     ll rem = 0;
+    //     ll last = 0;
+    //     bool ans = true;
+    //     for (auto x : total)
+    //     {
+    //         ll can = (x.first - last) * k + rem;
+    //         rem = can - x.second;
+    //         last = x.first;
+    //         //    cout << rem << " ";
+    //         if (rem < 0)
+    //         {
+    //             cout << "NO\n";
+    //             ans = false;
+    //             break;
+    //         }
+    //         //    cout << x.first << " " << x.second << "\n";
+    //     }
+    //     if (ans)
+    //         cout << "YES\n";
+
+    //   cout << "\n";
 }
