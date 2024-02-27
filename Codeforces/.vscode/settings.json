@@ -3,6 +3,8 @@
         "iostream": "cpp",
         "random": "cpp",
         "deque": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp"
     }
 }
