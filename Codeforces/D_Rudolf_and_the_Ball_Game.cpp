@@ -61,25 +61,47 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, ans = LONG_MAX;
-        cin >> n;
-
-        for (ll one = 0; one <= 2; one++)
+        ll n, m, i, st;
+        cin >> n >> m >> st;
+        vl current;
+        current.pb(st);
+        for (i = 0; i < m; i++)
         {
-            for (ll three = 0; three <= 1; three++)
+            ll r;
+            char ty;
+            set<ll> temp;
+            cin >> r >> ty;
+
+            for (auto x : current)
             {
-                for (ll six = 0; six <= 4; six++)
+                ll clock = (x + r) % n;
+                if (clock == 0)
+                    clock = n;
+                ll pos = x - r;
+                if (pos == 0)
+                    pos = n;
+                if (pos < 0)
                 {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
+                    ll rem = r - (x - 1);
+                    pos = n - (rem % n) + 1;
                 }
+                ll anti = pos;
+
+                if (ty == '0')
+                    temp.insert(clock);
+                else if (ty == '1')
+                    temp.insert(anti);
+                else
+                    temp.insert(clock), temp.insert(anti);
             }
+            current.clear();
+            for (auto x : temp)
+                current.push_back(x);
         }
-        cout << ans << "\n";
+
+        cout << current.size() << "\n";
+        for (auto x : current)
+            cout << x << " ";
+        cout << "\n";
     }
 }

@@ -61,25 +61,21 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, ans = LONG_MAX;
-        cin >> n;
+        ll n, m, i, k, j, count = 0;
 
-        for (ll one = 0; one <= 2; one++)
+        cin >> n >> m >> k;
+        ll a[n], b[m];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        for (i = 0; i < m; i++)
         {
-            for (ll three = 0; three <= 1; three++)
+            cin >> b[i];
+            for (j = 0; j < n; j++)
             {
-                for (ll six = 0; six <= 4; six++)
-                {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
-                }
+                if (b[i] + a[j] <= k)
+                    count++;
             }
         }
-        cout << ans << "\n";
+        cout<<count<<"\n";
     }
 }

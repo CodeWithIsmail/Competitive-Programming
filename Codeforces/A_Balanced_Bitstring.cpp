@@ -30,9 +30,9 @@ typedef vector<pll> vpl;
 #define sqr(a) ((a) * (a))
 ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
-#define YES printf("YES");
+#define YES printf("YES\n");
 #define Yes printf("Yes");
-#define NO printf("NO");
+#define NO printf("NO\n");
 #define No printf("No");
 
 // Const value:
@@ -61,25 +61,60 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, ans = LONG_MAX;
-        cin >> n;
-
-        for (ll one = 0; one <= 2; one++)
+        ll n, i, j, k;
+        cin >> n >> k;
+        string a;
+        cin >> a;
+        ll in[n];
+        for (i = 0; i < n; i++)
         {
-            for (ll three = 0; three <= 1; three++)
+            if (a[i] == '0')
+                in[i] = 0;
+            else if (a[i] == '1')
+                in[i] = 1;
+            else
+                in[i] = 2;
+        }
+        bool ans = true;
+        ll target = k / 2;
+        // for (i = 0; i < k; i++)
+        // {
+        //     if (in[i] == 2)
+        //     {
+        //         if (target > 0)
+        //         {
+        //             in[i] = 0;
+        //             target--;
+        //         }
+        //         else
+        //             in[i] = 1;
+        //     }
+        //     if (in[i] == 0)
+        //         target--;
+        // }
+        for (i = 0; i <= n - k; i++)
+        {
+            set<ll> s;
+            ll x;
+            for (j = i; j < n; j += k)
             {
-                for (ll six = 0; six <= 4; six++)
+                if (in[i] != 2)
                 {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
+                    s.insert(in[j]);
+                    x = in[j];
                 }
             }
+            if (s.size() > 1)
+            {
+                ans = false;
+                break;
+            }
+            for (j = i; j < n; j += k)
+            {
+                in[i] = x;
+            }
         }
-        cout << ans << "\n";
+        if (ans)
+            YES else NO
     }
 }

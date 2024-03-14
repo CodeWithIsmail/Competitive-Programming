@@ -61,25 +61,39 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, ans = LONG_MAX;
+        ll n, i;
         cin >> n;
-
-        for (ll one = 0; one <= 2; one++)
+        ll a[n];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        bool ans = true;
+        for (i = n - 1; i >= 0; i--)
         {
-            for (ll three = 0; three <= 1; three++)
+            if (i < 2)
             {
-                for (ll six = 0; six <= 4; six++)
+                if (a[i] != 0)
                 {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
+                    ans = false;
+                    break;
                 }
+                continue;
             }
+            ll need = a[i];
+            ll can = a[i - 1] / 2;
+            ll can2 = a[i - 2];
+            if (can < need || a[i - 2] < need)
+            {
+                ans = false;
+                break;
+            }
+            a[i] -= need;
+            a[i - 1] -= need * 2;
+            a[i - 2] -= need;
         }
-        cout << ans << "\n";
+        if (ans)
+            cout << "YES";
+        else
+            cout << "NO";
+        cout << "\n";
     }
 }

@@ -57,29 +57,36 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i, j, ans = LONG_LONG_MAX;
+    cin >> n;
+    ll a[n];
+    for (i = 0; i < n; i++)
+        cin >> a[i];
+    sort(a, a + n);
+    ll tr = -1;
+    for (i = 1;; i++)
     {
-        ll n, ans = LONG_MAX;
-        cin >> n;
-
-        for (ll one = 0; one <= 2; one++)
+        ll ch = 0;
+        bool c = true;
+        for (j = 0; j < n; j++)
         {
-            for (ll three = 0; three <= 1; three++)
+            ll need = pow(i, j);
+            if (need < 0)
             {
-                for (ll six = 0; six <= 4; six++)
-                {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
-                }
+                c = false;
+                break;
             }
+            ch += abs(a[j] - need);
         }
-        cout << ans << "\n";
+        if (!c)
+            break;
+        if (ch <= ans)
+        {
+            tr = i;
+            ans = ch;
+        }
+        else
+            break;
     }
+    cout << ans;
 }

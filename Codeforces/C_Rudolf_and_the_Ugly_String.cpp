@@ -61,25 +61,22 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, ans = LONG_MAX;
+        ll n, i;
         cin >> n;
-
-        for (ll one = 0; one <= 2; one++)
+        string a;
+        cin >> a;
+        //   ll m = 0, a = 0, p = 0, i = 0, e = 0;
+        ll count = 0;
+        for (i = 0; i < n - 2; i++)
         {
-            for (ll three = 0; three <= 1; three++)
-            {
-                for (ll six = 0; six <= 4; six++)
-                {
-                    for (ll ten = 0; ten <= 2; ten++)
-                    {
-                        ll temp = one * 1 + three * 3 + six * 6 + ten * 10;
-                        ll rem = n - temp;
-                        if (rem >= 0 && rem % 15 == 0)
-                            ans = min(ans, one + three + six + ten + rem / 15);
-                    }
-                }
-            }
+            if (i + 4 < n && a[i] == 'm' && a[i + 1] == 'a' && a[i + 2] == 'p' && a[i + 3] == 'i' && a[i + 4] == 'e')
+                continue;
+            //  count++;
+            if (a[i] == 'm' && a[i + 1] == 'a' && a[i + 2] == 'p')
+                count++;
+            else if (a[i] == 'p' && a[i + 1] == 'i' && a[i + 2] == 'e')
+                count++;
         }
-        cout << ans << "\n";
+        cout << count << "\n";
     }
 }
