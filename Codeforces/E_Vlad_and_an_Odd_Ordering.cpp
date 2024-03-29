@@ -63,11 +63,29 @@ int main()
     {
         ll n, k, i;
         cin >> n >> k;
-
-        ll power =static_cast<int>(pow(2, floor(log2(floor((k - 1) / 2.0) + 1)) + 1));
-
-        // Calculate 2^(log2(k-1) + 1)
-  //      ll kthCard = 1 << power;
-        cout << power << "\n";
+        vl v;
+        for (i = 2; i <= n; i += 4)
+        {
+            if (i % 2 == 0)
+                v.pb(i);
+        }
+        for (i = 3; i <= n; i += 6)
+        {
+            if (i % 2 == 0)
+                v.pb(i);
+        }
+        for (i = 4; i <= n; i += 8)
+        {
+            if (i % 2 == 0)
+                v.pb(i);
+        }
+        if (k <= (n + 1) / 2)
+            cout << 2 * k - 1;
+        else
+        {
+            ll rem = k - ((n + 1) / 2) - 1;
+            cout << v[rem];
+        }
+        cout << "\n";
     }
 }

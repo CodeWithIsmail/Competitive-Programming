@@ -57,30 +57,42 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i, k;
+    cin >> n >> k;
+    ll a[n + 1], pre[n + 1];
+    a[0] = pre[0] = 0;
+
+    for (i = 1; i <= n; i++)
+        cin >> a[i];
+    sort(a + 1, a + n + 1);
+    for (i = 1; i <= n; i++)
+        pre[i] = pre[i - 1] + a[i];
+    ll ans = LONG_MIN, val = LONG_MAX;
+
+    for (i = 1; i <= n; i++)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
+        ll h = i - 1, l = 0;
+        while (l <= h)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
-        }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
+            ll mid = (l + h) / 2;
+            ll can = pre[i] - pre[i - mid - 1] + k;
+            if (can >= (a[i] * (mid + 1)))
             {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
+                l = mid + 1;
+                if (mid + 1 > ans)
+                {
+                    ans = mid + 1;
+                    val = a[i];
+                }
+                else if (mid + 1 == ans)
+                {
+                    ans = mid + 1;
+                    val = min(val, a[i]);
+                }
             }
-            ans = max3(ans, count0, count1);
+            else
+                h = mid - 1;
         }
-        cout << ans << "\n";
     }
+    cout << ans << " " << val;
 }

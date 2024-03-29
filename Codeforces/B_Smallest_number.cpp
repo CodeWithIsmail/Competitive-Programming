@@ -57,30 +57,57 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll i, j, k, l, ans = LONG_LONG_MAX;
+    char c[3];
+    vl a;
+    for (i = 0; i < 4; i++)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
-        {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
-        }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
-        }
-        cout << ans << "\n";
+        ll temp;
+        cin >> temp;
+        a.pb(temp);
     }
+    for (i = 0; i < 3; i++)
+        cin >> c[i];
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 0; j < 4; j++)
+        {
+            for (k = 0; k < 4; k++)
+            {
+                for (l = 0; l < 4; l++)
+                {
+                    if (i != j && i != k && i != l && j != k && j != l && k != l)
+                    {
+                        vl v = {a[i], a[j], a[k], a[l]};
+                        ll temp = v[0];
+                        for (ll x = 0; x < 3; x++)
+                        {
+                            if (c[x] == '+')
+                                temp += v[x + 1];
+                            else
+                                temp *= v[x + 1];
+                        }
+                        ans = min(ans, temp);
+
+                        ll temp1 = 0, temp2 = 0;
+                        if (c[0] == '+')
+                            temp1 = v[0] + v[1];
+                        else
+                            temp1 = v[0] * v[1];
+                        if (c[1] == '+')
+                            temp2 = v[2] + v[3];
+                        else
+                            temp2 = v[2] * v[3];
+                        if (c[2] == '+')
+                            temp2 += temp1;
+                        else
+                            temp2 *= temp1;
+
+                        ans = min(ans, temp2);
+                    }
+                }
+            }
+        }
+    }
+    cout << ans;
 }

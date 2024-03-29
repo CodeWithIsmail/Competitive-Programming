@@ -30,9 +30,9 @@ typedef vector<pll> vpl;
 #define sqr(a) ((a) * (a))
 ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
-#define YES printf("YES");
+#define YES printf("YES\n");
 #define Yes printf("Yes");
-#define NO printf("NO");
+#define NO printf("NO\n");
 #define No printf("No");
 
 // Const value:
@@ -59,28 +59,24 @@ int main()
     optimize();
     ll t;
     cin >> t;
+    vl v;
+    for (ll i = 100000; i > 0; i--)
+    {
+        string st = to_string(i);
+        sort(all(st));
+        if (st.back() <= '1')
+            v.pb(i);
+    }
     while (t--)
     {
-        ll n, i, x, ans = -1;
+        ll n, i;
         cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
+        for (i = 0; i < v.size() - 1; i++)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
+            while (n % v[i] == 0 && v[i] <= n)
+                n /= v[i];
         }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
-        }
-        cout << ans << "\n";
+        if (n == 1)
+            YES else NO
     }
 }

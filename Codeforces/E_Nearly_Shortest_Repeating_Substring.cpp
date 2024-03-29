@@ -61,25 +61,48 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
+        ll n, i, ans = LONG_MAX;
+        string a;
+        cin >> n >> a;
+        for (ll div = 1; div <= n; div++)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
-        }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
+            if (n % div == 0)
             {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
+                string prefix = a.substr(0, div);
+                string suffix = a.substr(div);
+                ll count1 = 0;
+                for (i = 0; i < suffix.size(); i++)
+                {
+                    if (prefix[i % prefix.size()] != suffix[i])
+                        count1++;
+                }
+                if (count1 <= 1)
+                {
+                    ans = div;
+                    break;
+                }
+                if (suffix.size() > prefix.size())
+                {
+                    ll count2 = 0;
+                    string prefix2 = suffix.substr(0, div);
+                    string suffix2 = suffix.substr(div);
+                    for (i = 0; i < suffix2.size(); i++)
+                    {
+                        if (prefix2[i % prefix2.size()] != suffix2[i])
+                            count2++;
+                    }
+                    for (i = 0; i < div; i++)
+                    {
+                        if (prefix[i] != prefix2[i])
+                            count2++;
+                    }
+                    if (count2 <= 1)
+                    {
+                        ans = div;
+                        break;
+                    }
+                }
             }
-            ans = max3(ans, count0, count1);
         }
         cout << ans << "\n";
     }

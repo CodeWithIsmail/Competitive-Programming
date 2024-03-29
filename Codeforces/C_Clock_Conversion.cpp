@@ -61,26 +61,28 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
+        string a;
+        cin >> a;
+        string hr = a.substr(0, 2);
+        string mn = a.substr(3, 2);
+        ll to = stoi(mn);
+        ll hour = stoi(hr);
+        string ex = "";
+        if (hour >= 12)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
+            // if (to == 0)
+            //     ex = "AM";
+            // else
+            ex = "PM";
         }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
-        }
-        cout << ans << "\n";
+        else
+            ex = "AM";
+        hour %= 12;
+        if (hour == 0)
+            hour = 12;
+        if (hour < 10)
+            cout << "0";
+        cout << hour << a.substr(2) << " " << ex << "\n";
+        // cout << hour << "\n";
     }
 }

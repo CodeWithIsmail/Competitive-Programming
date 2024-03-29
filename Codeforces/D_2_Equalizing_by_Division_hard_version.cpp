@@ -57,30 +57,32 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, k, i, ans = LONG_MAX;
+    cin >> n >> k;
+    ll a[n];
+    map<ll, vl> kotobar;
+
+    for (i = 0; i < n; i++)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
+        cin >> a[i];
+        ll temp = a[i], cn = 0;
+        map<ll, ll> count;
+        while (temp > 0)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
+            count[temp] = cn;
+            cn++;
+            temp /= 2;
         }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
-        }
-        cout << ans << "\n";
+        count[temp] = cn;
+        for (auto x : count)
+            kotobar[x.first].pb(x.second);
     }
+    for (auto x : kotobar)
+    {
+        if (x.second.size() < k)
+            continue;
+        sort(all(x.second));
+        ans = min(ans, (ll)accumulate(x.second.begin(), x.second.begin() + k, 0));
+    }
+    cout << ans << "\n";
 }

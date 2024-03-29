@@ -61,26 +61,42 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
+        ll n, i, k;
+        cin >> n >> k;
+        ll a[n], b[n], c[n], d[n], e[n], ans[n];
+        map<ll, vl> in;
+
+        for (i = 0; i < n; i++)
+            cin >> a[i], c[i] = a[i];
+        for (i = 0; i < n; i++)
+            cin >> b[i], e[i] = b[i];
+
+        sort(c, c + n);
+        sort(e, e + n);
+
+        for (i = n - k; i < n; i++)
+            d[i] = e[i - (n - k)];
+        for (i = 0; i < n - k; i++)
+            d[i] = e[i + k];
+
+        for (i = 0; i < n; i++)
+            in[c[i]].pb(d[i]);
+        ll coun = 0;
         for (i = 0; i < n; i++)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
+            ans[i] = in[a[i]].back();
+            in[a[i]].pop_back();
+            if (a[i] > ans[i])
+                coun++;
         }
-        for (ll k = 0; k < 31; k++)
+        if (coun == k)
         {
-            ll count0 = 0, count1 = 0;
+            cout << "YES\n";
             for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
+                cout << ans[i] << " ";
         }
-        cout << ans << "\n";
+        else
+            cout << "NO";
+        cout << "\n";
     }
 }

@@ -5,6 +5,8 @@
         "deque": "cpp",
         "ostream": "cpp",
         "cmath": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "functional": "cpp",
+        "bitset": "cpp"
     }
 }

@@ -57,30 +57,13 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i;
+    cin >> n;
+    vpl v;
+    for (i = 0; i < n; i++)
     {
-        ll n, i, x, ans = -1;
-        cin >> n;
-        vector<string> v;
-        for (i = 0; i < n; i++)
-        {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
-        }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
-        }
-        cout << ans << "\n";
+        ll a, b;
+        cin >> a >> b;
+        v.pb({a, b});
     }
 }

@@ -61,26 +61,35 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, x, ans = -1;
+        ll n, i;
         cin >> n;
-        vector<string> v;
+        ll a[n], can[n];
+        map<ll, ll> ind;
         for (i = 0; i < n; i++)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
+            cin >> a[i];
+            ind[a[i]] = i;
         }
-        for (ll k = 0; k < 31; k++)
+        for (i = 0; i < n; i++)
         {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
-            {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
-            }
-            ans = max3(ans, count0, count1);
+            if (ind[a[i]] == i)
+                can[i] = -1;
+            else
+                can[i] = ind[a[i]];
+            cout << can[i] << " ";
         }
-        cout << ans << "\n";
+        ll mx = -1, ans = n;
+        for (i = 0; i < n; i++)
+        {
+            if (can[i] == -1)
+            {
+                if (mx < i)
+                    ans--;
+            }
+            else
+                mx = max(can[i], mx);
+        }
+
+        cout <<ans<< "\n";
     }
 }

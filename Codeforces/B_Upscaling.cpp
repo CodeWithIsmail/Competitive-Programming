@@ -61,26 +61,21 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, x, ans = -1;
+        ll n, i, j, k;
         cin >> n;
-        vector<string> v;
         for (i = 0; i < n; i++)
         {
-            cin >> x;
-            v.pb(bitset<31>(x).to_string());
-        }
-        for (ll k = 0; k < 31; k++)
-        {
-            ll count0 = 0, count1 = 0;
-            for (i = 0; i < n; i++)
+            for (k = 0; k < 2; k++)
             {
-                if (v[i][k] == '1')
-                    count0++;
-                else
-                    count1++;
+                for (j = 0; j < n; j++)
+                {
+                    if ((i + j) % 2 == 0)
+                        cout << "##";
+                    else
+                        cout << "..";
+                }
+                cout << "\n";
             }
-            ans = max3(ans, count0, count1);
         }
-        cout << ans << "\n";
     }
 }

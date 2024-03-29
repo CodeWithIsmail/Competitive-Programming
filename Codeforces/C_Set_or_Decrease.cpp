@@ -61,60 +61,45 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i, s = 0;
+        ll n, i, k, sum = 0;
         cin >> n >> k;
-        deque<ll> d;
-        for (i = 0; i < n; i++)
+        ll a[n + 1], pre[n + 1];
+        pre[0] = 0;
+        for (i = 1; i <= n; i++)
         {
-            ll x;
-            cin >> x;
-            s += x;
-            d.pb(x);
+            cin >> a[i];
+            if (i > 0)
+                pre[i] = pre[i - 1] + a[i];
         }
-        sort(all(d));
-        ll ex = k - s;
-        // while (d.size() > 1 && ex > 0)
-        // {
-        //     ex -= d.back() - d.front();
-        //     d.pop_back();
-        // }
-        for (auto x : d)
-            cout << x << " ";
-        cout << "\n";
-        ll ans = LONG_MAX, low = -200000, up = -1;
-
-        while (low <= up)
+        if (pre[n] <= k)
         {
-            ll mid = (low + up) / 2;
-            ll count = 0;
-            cout << mid << " ";
-            for (i = n - 1; i > 0; i--)
-            {
-                ex -= d[i] - mid;
-                count++;
-                if (ex <= 0)
-                    break;
-            }
-            if (ex <= 0)
-            {
-                up = mid - 1;
-                ll te;
-                if (mid < 0)
-                {
-                    te = count + abs(mid) + d[0];
-                }
-                else
-                {
-                    te = count + abs(mid - d[0]);
-                }
-                ans = min(ans, te);
-            }
-            else
-            {
-                low = mid + 1;
-            }
-            //  cout << low << " " << up << "\n";
+            cout << "0\n";
+            continue;
         }
+        if (n == 1)
+        {
+            cout << max(0ll, a[1] - k) << "\n";
+            continue;
+        }
+        ll ans = LONG_MAX;
+        for (i = n; i > 1; i--)
+        {
+            ll unchanged = pre[i - 1] - pre[1];
+            ll total = k - unchanged;
+            ll quan = n - i + 2;
+            ll temp_ans = total / quan;
+            if (quan * temp_ans > total)
+                temp_ans--;
+            //  cout << temp_ans << " ";
+            ll ex = total - quan * temp_ans;
+            ll tr = a[1] - temp_ans + quan - 1;
+            //    cout<<ex<<"\n";
+            if (ex >= (a[i] - temp_ans))
+                tr--;
+            ans = min(ans, tr);
+               cout<<unchanged<<" "<<total<<" "<<temp_ans<<" "<<tr<<"\n";
+        }
+        //  cout<<"\n";
         cout << ans << "\n";
     }
 }
