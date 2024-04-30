@@ -57,56 +57,25 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, a, b, ans = LONG_LONG_MAX, A, B;
+    cin >> n >> a >> b;
+    ll mn = n * 6;
+    //  cout << mn << "\n";
+    for (ll aa = a; aa <= max(a, 100000ll); aa++)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
-        {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
-        }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        ll need = max(b, (mn + aa - 1) / aa);
+        ll area = need * aa;
+        if (area >= mn && area < ans)
+            ans = area, A = aa, B = need;
     }
+    for (ll bb = b; bb <= max(b, 100000ll); bb++)
+    {
+        ll need = max(a, (mn + bb - 1) / bb);
+        ll area = need * bb;
+        if (area >= mn && area < ans)
+            ans = area, A = need, B = bb;
+    }
+
+    cout << ans << "\n"
+         << A << " " << B;
 }

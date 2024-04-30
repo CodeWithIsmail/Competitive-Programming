@@ -57,18 +57,17 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, i;
-    cin >> n;
-    map<string, ll> count;
-    while (n--)
+    ll n, i, k, sum = 0;
+    cin >> n >> k;
+    ll a[n];
+    for (i = 0; i < n; i++)
     {
-        string t;
-        cin >> t;
-        sort(all(t));
-        count[t]++;
+        cin >> a[i];
+        sum += a[i];
     }
-    ll ans = 0;
-    for (auto x : count)
-        ans += ((x.second) * (x.second - 1)) / 2;
-    cout << ans;
+    ll mx = *max_element(a, a + n);
+    sum += k;
+    ll ev = (sum + n - 1) / n;
+    ev = max(ev, mx);
+    cout << ev << " " << mx + k;
 }

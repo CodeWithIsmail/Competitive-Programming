@@ -30,9 +30,9 @@ typedef vector<pll> vpl;
 #define sqr(a) ((a) * (a))
 ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
-#define YES printf("YES");
+#define YES printf("YES\n");
 #define Yes printf("Yes");
-#define NO printf("NO");
+#define NO printf("NO\n");
 #define No printf("No");
 
 // Const value:
@@ -61,52 +61,41 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
+        ll n, m, i, j;
+        cin >> n >> m;
+        vector<string> a;
+        for (i = 0; i < n; i++)
         {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
+            string temp;
+            cin >> temp;
+            a.pb(temp);
         }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        vector<char> v;
+        bool ans = false;
+        for (i = 0; i < n; i++)
+        {
+            string temp = a[i];
+            sort(all(temp));
+            if (temp.front() == temp.back())
+                v.pb(temp.front());
+            else
+                v.pb('Z');
+        }
+
+        vector<char> vv;
+        for (i = 0; i < m; i++)
+        {
+            string temp = "";
+            for (j = 0; j < n; j++)
+                temp += a[j][i];
+            sort(all(temp));
+            if (temp.front() == temp.back())
+                vv.pb(temp.front());
+            else
+                vv.pb('Z');
+        }
+
+        if ((v.front() == 'B' && v.back() == 'W') || (v.front() == 'W' && v.back() == 'B') || (vv.front() == 'B' && vv.back() == 'W') || (vv.front() == 'W' && vv.back() == 'B'))
+            NO else YES
     }
 }

@@ -61,52 +61,26 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
+        string a;
+        cin >> a;
+        while (a.front() == '0')
+            a = a.substr(1);
+        if (a == "")
         {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
+            cout << 0 << "\n";
+            continue;
         }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        //  cout << a << "\n";
+        ll i, count = 0, sum = 0;
+        for (i = 0; i < a.size(); i++)
+        {
+            if (a[i] == '0')
+            {
+                sum += i + 1 - count;
+                count++;
+            }
+            //   cout<<sum<<"\n";
+        }
+        cout << sum << "\n";
     }
 }

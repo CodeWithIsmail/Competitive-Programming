@@ -57,56 +57,37 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    double a, b, c;
+    cin >> a >> b >> c;
+    double dec = b * b - 4 * a * c;
+    if (a == 0 && b == 0 && c == 0)
+        cout << -1;
+    else if (a == 0 && b == 0)
+        cout << 0;
+    else if (a == 0)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
-        {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
+        cout << "1\n";
+        fraction();
+        cout << -c / b << "\n";
+    }
 
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
+    else if (dec < 0)
+        cout << 0;
+    else
+    {
+        if (dec == 0)
+        {
+            cout << "1\n";
+            fraction();
+            cout << -b / (2 * a) << "\n";
         }
-        if (ans)
-            cout << "YES\n";
         else
-            cout << "NO\n";
+        {
+            cout << "2\n";
+            fraction();
+            double x = (-b - sqrt(dec)) / (2 * a), y = (-b + sqrt(dec)) / (2 * a);
+            cout << min(x, y) << "\n"
+                 << max(x, y);
+        }
     }
 }

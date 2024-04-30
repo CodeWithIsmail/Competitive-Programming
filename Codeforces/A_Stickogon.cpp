@@ -61,52 +61,20 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
+        ll n, i;
         cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
+        map<ll, ll> count;
+        for (i = 0; i < n; i++)
         {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
+            ll temp;
+            cin >> temp;
+            count[temp]++;
         }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        ll ans = 0;
+        for (auto x : count)
+        {
+            ans += (x.second / 3);
+        }
+        cout << ans << "\n";
     }
 }

@@ -61,45 +61,46 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, k, sum = 0;
+        ll n, i, k;
         cin >> n >> k;
         ll a[n + 1], pre[n + 1];
-        pre[0] = 0;
+        a[0] = pre[0] = pre[1] = 0;
         for (i = 1; i <= n; i++)
         {
             cin >> a[i];
-            if (i > 0)
-                pre[i] = pre[i - 1] + a[i];
         }
-        if (pre[n] <= k)
+        sort(a, a + n + 1);
+        for (i = 2; i <= n; i++)
         {
-            cout << "0\n";
-            continue;
+            pre[i] = a[i] + pre[i - 1];
         }
-        if (n == 1)
+
+        for (i = 0; i <= n; i++)
         {
-            cout << max(0ll, a[1] - k) << "\n";
-            continue;
+            // cout << a[i] << " ";
+            cout << pre[i] << " ";
         }
-        ll ans = LONG_MAX;
-        for (i = n; i > 1; i--)
+        cout << "\n";
+
+        ll start = a[1];
+
+        while (1)
         {
-            ll unchanged = pre[i - 1] - pre[1];
-            ll total = k - unchanged;
-            ll quan = n - i + 2;
-            ll temp_ans = total / quan;
-            if (quan * temp_ans > total)
-                temp_ans--;
-            //  cout << temp_ans << " ";
-            ll ex = total - quan * temp_ans;
-            ll tr = a[1] - temp_ans + quan - 1;
-            //    cout<<ex<<"\n";
-            if (ex >= (a[i] - temp_ans))
-                tr--;
-            ans = min(ans, tr);
-               cout<<unchanged<<" "<<total<<" "<<temp_ans<<" "<<tr<<"\n";
+            ll can = k - start;
+            ll l = 0, u = n - 1 - upper_bound(a, a + n + 1, start);
+            while (l <= n)
+            {
+                ll mid = (l + u) / 2;
+                ll total = pre[n - mid] + mid * start;
+                if (total <= can)
+                {
+                    u = mid - 1;
+                }
+                else
+                {
+                    l = mid + 1;
+                }
+            }
         }
-        //  cout<<"\n";
-        cout << ans << "\n";
     }
 }

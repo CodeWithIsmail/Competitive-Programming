@@ -57,31 +57,18 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    string a;
+    cin >> a;
+    ll i, cou = 0;
+    for (auto x : a)
     {
-        ll n, i;
-        cin >> n;
-        vl ba, fr;
-        ll sum = 0;
-        ba.pb(0), fr.pb(0);
-        for (i = 0; i < n; i++)
-        {
-            ll x;
-            cin >> x;
-
-            if (fr.back() < ba.back())
-            {
-                sum += fr.back();
-                fr.pb(x);
-            }
-            else
-            {
-                sum += ba.back();
-                ba.pb(x);
-            }
-        }
-        cout << sum << "\n";
+        if (x == 'o')
+            cou++;
     }
+    if (cou == 0)
+    {
+        YES return 0;
+    }
+    if ((a.size() - cou) % cou)
+        NO else YES
 }

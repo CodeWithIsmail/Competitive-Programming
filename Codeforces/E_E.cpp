@@ -57,56 +57,9 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
-    {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
-        {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
-        }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
-    }
+    ll a, b, x, y;
+    cin >> a >> b >> x >> y;
+    ll gc = gcd(x, y);
+    x /= gc, y /= gc;
+    cout << min(a / x, b / y);
 }

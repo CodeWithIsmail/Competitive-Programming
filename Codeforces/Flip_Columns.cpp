@@ -57,56 +57,84 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, m, K, k, i, j, ans = -1;
+    cin >> n >> m >> K;
+    ll a[n][m];
+    for (i = 0; i < n; i++)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
-        {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
+        for (j = 0; j < m; j++)
+            cin >> a[i][j];
+    }
 
-            if (current == n - 1)
+    for (i = 0; i < n; i++)
+    {
+        ll b[n][m];
+        ll temp = K;
+        for (j = 0; j < n; j++)
+        {
+            for (k = 0; k < m; k++)
+                b[j][k] = a[j][k];
+        }
+        for (j = 0; j < m; j++)
+        {
+            if (b[i][j] == 0)
             {
-                if (state == 1)
+                if (temp == 0)
+                    break;
+                for (k = 0; k < n; k++)
                 {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
+                    if (b[k][j] == 1)
+                        b[k][j] = 0;
+                    else
+                        b[k][j] = 1;
                 }
-                else
-                {
-                    ans = true;
-                }
-                break;
+                temp--;
             }
         }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+
+        if (temp % 2)
+        {
+            ll in, cou = LONG_LONG_MAX;
+            for (k = 0; k < m; k++)
+            {
+                ll te = 0;
+                for (j = 0; j < n; j++)
+                {
+                    if (b[j][k] == 1)
+                        te++;
+                }
+                if (te < cou)
+                {
+                    cou = te;
+                    in = k;
+                }
+            }
+            for (k = 0; k < n; k++)
+            {
+                if (b[k][in] == 1)
+                    b[k][in] = 0;
+                else
+                    b[k][in] = 1;
+            }
+        }
+
+        ll count = 0;
+
+        for (j = 0; j < n; j++)
+        {
+            bool ch = true;
+            for (k = 0; k < m; k++)
+            {
+                if (b[j][k] == 0)
+                {
+                    ch = false;
+                    break;
+                }
+            }
+            if (ch)
+                count++;
+        }
+        ans = max(ans, count);
     }
+    cout << ans;
 }

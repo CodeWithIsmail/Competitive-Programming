@@ -34,7 +34,8 @@ ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define Yes printf("Yes");
 #define NO printf("NO");
 #define No printf("No");
-
+#define A printf("Alice\n");
+#define B printf("Bob\n");
 // Const value:
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -61,52 +62,27 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
+        ll n, i;
         cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
+        ll a[n];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        sort(a, a + n);
+        ll winner = 0, sub = 0;
+        for (i = 0; i < n; i++)
         {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
+            a[i] -= sub;
+            if (a[i])
+                winner ^= 1;
+            if (a[i] == 1)
+                sub++;
+            else if (a[i] > 1)
                 break;
-            }
         }
-        if (ans)
-            cout << "YES\n";
+        if (winner)
+            cout << "Alice";
         else
-            cout << "NO\n";
+            cout << "Bob";
+        cout << "\n";
     }
 }

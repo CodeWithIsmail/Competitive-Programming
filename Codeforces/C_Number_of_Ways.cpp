@@ -57,56 +57,32 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i;
+    cin >> n;
+    ll a[n + 1], pre[n + 1];
+    a[0] = pre[0] = 0;
+    for (i = 1; i <= n; i++)
     {
-        ll n;
-        cin >> n;
-        string a, b;
-        cin >> a >> b;
-        ll current = 0, state = 1;
-        bool ans = false;
-        while (1)
-        {
-            if (state == 1)
-            {
-                if (a[current] == '>')
-                    current++;
-                else
-                {
-                    state = 2;
-                }
-            }
-            else
-            {
-                if (b[current] == '>')
-                    current++;
-                else
-                {
-                    state = 1;
-                }
-            }
-
-            if (current == n - 1)
-            {
-                if (state == 1)
-                {
-                    if (b[n - 1] != '<')
-                    {
-                        ans = true;
-                    }
-                }
-                else
-                {
-                    ans = true;
-                }
-                break;
-            }
-        }
-        if (ans)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        cin >> a[i];
+        pre[i] = a[i] + pre[i - 1];
     }
+    if (pre[n] % 3)
+    {
+        cout << "0";
+        return 0;
+    }
+    ll target = pre[n] / 3, count = 0, coun = 0;
+    ll available[n + 1];
+    for (i = n - 1; i > 0; i--)
+    {
+        available[i] = coun;
+        if (pre[i] == 2 * target)
+            coun++;
+    }
+    for (i = 1; i < n - 1; i++)
+    {
+        if (pre[i] == target)
+            count += available[i];
+    }
+    cout << count;
 }
