@@ -4,8 +4,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
 
 // Data Type:
 typedef long long ll;
@@ -18,8 +16,6 @@ typedef pair<double, double> pdd;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpi;
 typedef vector<pll> vpl;
-
-typedef tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 // Shortcut:
 #define min3(a, b, c) min(a, min(b, c))
@@ -63,30 +59,56 @@ int main()
     optimize();
     ll n, i;
     cin >> n;
-    ll a[n];
-    for (i = 0; i < n; i++)
-        cin >> a[i];
-    ll sum = 0, count = 0;
-    ordered_set st;
+    unordered_map<ll, ll> count;
+    map<pair<ll, ll>, bool> pos;
+    vl seq, given;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        ll x, y;
+        cin >> x >> y;
+        count[x]++, count[y]++;
+        pos[{x, y}] = pos[{y, x}] = true;
+    }
     for (i = 0; i < n; i++)
     {
-        sum += a[i];
-        count++;
-        if (a[i] < 0)
-            st.insert(a[i]);
-        if (sum < 0)
+        ll x;
+        cin >> x;
+        given.pb(x);
+    }
+    if (given[0] != 1)
+    {
+        cout << "No";
+        return 0;
+    }
+
+    ll current = 1, in = 1, st = 1;
+    seq.pb(current);
+    bool chec = true;
+
+    while (st < n)
+    {
+        for (i = 0; i < count[current]; i++)
         {
-            while (!st.empty() && sum < 0)
+            ll temp = given[st + i];
+            if (pos[{current, temp}])
             {
-                count--;
-                auto it = st.begin();
-                ll last_value = *it;
-                sum += abs(last_value);
-                st.erase(it);
+                count[temp]--;
+                seq.pb(temp);
+                pos[{current, temp}] = false;
+            }
+            else
+            {
+                chec = false;
+                break;
             }
         }
-        if (sum < 0)
+        if (!chec)
             break;
+        st += count[current];
+        current = seq[in];
+        in++;
     }
-    cout << count;
+    if (chec)
+        Yes else No
 }

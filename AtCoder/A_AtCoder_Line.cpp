@@ -4,8 +4,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
 
 // Data Type:
 typedef long long ll;
@@ -18,8 +16,6 @@ typedef pair<double, double> pdd;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpi;
 typedef vector<pll> vpl;
-
-typedef tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 // Shortcut:
 #define min3(a, b, c) min(a, min(b, c))
@@ -61,32 +57,13 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, i;
-    cin >> n;
-    ll a[n];
-    for (i = 0; i < n; i++)
-        cin >> a[i];
-    ll sum = 0, count = 0;
-    ordered_set st;
-    for (i = 0; i < n; i++)
-    {
-        sum += a[i];
-        count++;
-        if (a[i] < 0)
-            st.insert(a[i]);
-        if (sum < 0)
-        {
-            while (!st.empty() && sum < 0)
-            {
-                count--;
-                auto it = st.begin();
-                ll last_value = *it;
-                sum += abs(last_value);
-                st.erase(it);
-            }
-        }
-        if (sum < 0)
-            break;
-    }
-    cout << count;
+
+    ll n,x, y, z;
+    cin >> n>>x >> y >> z;
+    ll mn = min(x, y), mx = max(x, y);
+    if (z >= mn && z <= mx)
+        cout << "Yes";
+    else
+        cout << "No";
+    cout << "\n";
 }

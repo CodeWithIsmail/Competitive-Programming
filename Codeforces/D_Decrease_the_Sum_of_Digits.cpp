@@ -4,8 +4,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
 
 // Data Type:
 typedef long long ll;
@@ -18,8 +16,6 @@ typedef pair<double, double> pdd;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpi;
 typedef vector<pll> vpl;
-
-typedef tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 // Shortcut:
 #define min3(a, b, c) min(a, min(b, c))
@@ -61,32 +57,45 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, i;
-    cin >> n;
-    ll a[n];
-    for (i = 0; i < n; i++)
-        cin >> a[i];
-    ll sum = 0, count = 0;
-    ordered_set st;
-    for (i = 0; i < n; i++)
+    ll t;
+    cin >> t;
+    while (t--)
     {
-        sum += a[i];
-        count++;
-        if (a[i] < 0)
-            st.insert(a[i]);
-        if (sum < 0)
+        string a;
+        ll n, i, sum = 0, pre;
+        cin >> a >> n;
+        pre = stoll(a);
+        for (auto x : a)
+            sum += x - '0';
+        if (sum <= n)
         {
-            while (!st.empty() && sum < 0)
-            {
-                count--;
-                auto it = st.begin();
-                ll last_value = *it;
-                sum += abs(last_value);
-                st.erase(it);
-            }
+            cout << "0\n";
+            continue;
         }
-        if (sum < 0)
-            break;
+        for (i = a.size() - 1; i >= 0; i--)
+        {
+            if (sum < n)
+                break;
+            sum -= a[i] - '0';
+            a[i] = '0';
+        }
+        while (i >= 0 && a[i] == '9')
+        {
+           a[i] = '0';
+            i--;
+        }
+        if (i < 0)
+        {
+            string temp = "";
+            for (i = 0; i < a.size(); i++)
+                temp += '0';
+            a = '1' + temp;
+        }
+        else
+        {
+            char ch = a[i] + 1;
+            a[i] = ch;
+        }
+        cout << stoll(a) - pre << "\n";
     }
-    cout << count;
 }
