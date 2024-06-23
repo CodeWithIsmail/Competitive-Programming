@@ -57,12 +57,22 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i;
+    cin >> n;
+    bool ans = false;
+    map<pair<string, string>,ll> mp;
+    for (i = 0; i< n; i++)
     {
-        ll n;
-        cin >> n;
-        cout << n << "\n";
+        string x, y;
+        cin >> x >> y;
+        mp[{x, y}]++;
+        if (mp[{x, y}] > 1)
+            ans = true;
     }
+
+    if (ans)
+        cout << "Yes";
+    else
+        cout << "No";
+    cout << "\n";
 }

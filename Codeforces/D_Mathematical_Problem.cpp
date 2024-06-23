@@ -1,4 +1,3 @@
-
 ///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
@@ -29,6 +28,8 @@ typedef vector<pll> vpl;
 #define sz(x) (int)x.size()
 #define mem(a, b) memset(a, b, sizeof(a))
 #define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define YES printf("YES");
 #define Yes printf("Yes");
 #define NO printf("NO");
@@ -53,8 +54,6 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-ll pre[2005], mx = 2000 * 1e9;
-
 int main()
 {
     optimize();
@@ -62,26 +61,60 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, j, ans = 0;
-        cin >> n;
-        ll a[n + 1];
-        pre[0] = 0;
-        for (i = 1; i <= n; i++)
+        ll n, i, j;
+        string a;
+        cin >> n >> a;
+        ll ans = LONG_LONG_MAX;
+
+        for (i = 0; i < n - 1; i++)
         {
-            cin >> a[i];
-            pre[i] = a[i] + pre[i - 1];
-        }
-        for (i = 1; i <= n; i++)
-        {
-            ll temp = a[i];
-            for (j = i; j <= n; j++)
+            string temp = a.substr(i, 2);
+            ll num = stoll(temp);
+            // cout << num << " ";
+            ll cur = 0;
+
+            for (j = 0; j < n; j++)
             {
-                temp = lcm(temp, a[j]);
-                if (temp > mx)
-                    break;
-                if ((pre[j] - pre[i - 1]) % temp == 0)
-                    ans++;
+                if (j == 0)
+                {
+                    if (j == i)
+                    {
+                        cur = num;
+                        j++;
+                    }
+                    else
+                        cur = a[0] - '0';
+
+                    if (cur == 0)
+                    {
+                        ans = 0;
+                        break;
+                    }
+                }
+                else
+                {
+                    ll tem;
+                    if (j == i)
+                    {
+                        tem = num;
+                        j++;
+                    }
+                    else
+                        tem = a[j] - '0';
+
+                    if (tem == 0)
+                    {
+                        cur = 0;
+                        break;
+                    }
+                    else if (tem == 1)
+                        ;
+                    else
+                        cur = min(cur + tem, cur * tem);
+                }
             }
+            // cout << cur << "\n";
+            ans = min(ans, cur);
         }
         cout << ans << "\n";
     }

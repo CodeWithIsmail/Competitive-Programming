@@ -1,4 +1,3 @@
-
 ///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
@@ -29,6 +28,8 @@ typedef vector<pll> vpl;
 #define sz(x) (int)x.size()
 #define mem(a, b) memset(a, b, sizeof(a))
 #define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define YES printf("YES");
 #define Yes printf("Yes");
 #define NO printf("NO");
@@ -53,8 +54,6 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-ll pre[2005], mx = 2000 * 1e9;
-
 int main()
 {
     optimize();
@@ -62,27 +61,40 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, j, ans = 0;
-        cin >> n;
-        ll a[n + 1];
-        pre[0] = 0;
-        for (i = 1; i <= n; i++)
+        ll n, m, i, j;
+        cin >> n >> m;
+        ll a[n][m];
+        for (i = 0; i < n; i++)
         {
-            cin >> a[i];
-            pre[i] = a[i] + pre[i - 1];
+            for (j = 0; j < m; j++)
+                cin >> a[i][j];
         }
-        for (i = 1; i <= n; i++)
+        for (i = 0; i < n; i++)
         {
-            ll temp = a[i];
-            for (j = i; j <= n; j++)
+            for (j = 0; j < m; j++)
             {
-                temp = lcm(temp, a[j]);
-                if (temp > mx)
-                    break;
-                if ((pre[j] - pre[i - 1]) % temp == 0)
-                    ans++;
+                vl v;
+                if (i - 1 >= 0)
+                    v.pb(a[i - 1][j]);
+                if (i + 1 < n)
+                    v.pb(a[i + 1][j]);
+                if (j - 1 >= 0)
+                    v.pb(a[i][j - 1]);
+                if (j + 1 < m)
+                    v.pb(a[i][j + 1]);
+                sort(all(v));
+                a[i][j] = min(v.back(), a[i][j]);
+
+                // cout<<v.back()<<"\n";
             }
         }
-        cout << ans << "\n";
+
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < m; j++)
+                cout << a[i][j] << " ";
+
+            cout << "\n";
+        }
     }
 }

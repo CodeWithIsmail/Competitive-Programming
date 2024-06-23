@@ -1,4 +1,3 @@
-
 ///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
@@ -29,6 +28,8 @@ typedef vector<pll> vpl;
 #define sz(x) (int)x.size()
 #define mem(a, b) memset(a, b, sizeof(a))
 #define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define YES printf("YES");
 #define Yes printf("Yes");
 #define NO printf("NO");
@@ -53,8 +54,6 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-ll pre[2005], mx = 2000 * 1e9;
-
 int main()
 {
     optimize();
@@ -62,27 +61,18 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, j, ans = 0;
-        cin >> n;
-        ll a[n + 1];
-        pre[0] = 0;
-        for (i = 1; i <= n; i++)
+        ll x, y, z, i;
+        cin >> x >> y >> z;
+        ll mn = LONG_LONG_MAX, ans;
+        for (i = -100; i <= 100; i++)
         {
-            cin >> a[i];
-            pre[i] = a[i] + pre[i - 1];
-        }
-        for (i = 1; i <= n; i++)
-        {
-            ll temp = a[i];
-            for (j = i; j <= n; j++)
+            ll temp = abs(x - i) + abs(y - i) + abs(z - i);
+            if (temp < mn)
             {
-                temp = lcm(temp, a[j]);
-                if (temp > mx)
-                    break;
-                if ((pre[j] - pre[i - 1]) % temp == 0)
-                    ans++;
+                mn = temp;
+                ans = i;
             }
         }
-        cout << ans << "\n";
+        cout << mn << "\n";
     }
 }

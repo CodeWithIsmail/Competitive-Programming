@@ -1,4 +1,3 @@
-
 ///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
@@ -29,6 +28,8 @@ typedef vector<pll> vpl;
 #define sz(x) (int)x.size()
 #define mem(a, b) memset(a, b, sizeof(a))
 #define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define YES printf("YES");
 #define Yes printf("Yes");
 #define NO printf("NO");
@@ -53,8 +54,6 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-ll pre[2005], mx = 2000 * 1e9;
-
 int main()
 {
     optimize();
@@ -62,27 +61,46 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, i, j, ans = 0;
-        cin >> n;
-        ll a[n + 1];
-        pre[0] = 0;
-        for (i = 1; i <= n; i++)
+        ll n, m, i;
+        cin >> n >> m;
+        string a;
+        cin >> a;
+        vl v;
+        for (i = 0; i < m; i++)
         {
-            cin >> a[i];
-            pre[i] = a[i] + pre[i - 1];
+            ll temp;
+            cin >> temp;
+            v.pb(temp);
         }
-        for (i = 1; i <= n; i++)
+        sort(all(v));
+        deque<char> d;
+        string ch;
+        cin >> ch;
+        for (i = 0; i < m; i++)
         {
-            ll temp = a[i];
-            for (j = i; j <= n; j++)
+
+            d.pb(ch[i]);
+        }
+        sort(all(d));
+        // for (char x : d)
+        //     cout << x << " ";
+        // cout << "\n";
+        string ans = a;
+        for (i = 0; i < m - 1; i++)
+        {
+            if (v[i] == v[i + 1])
             {
-                temp = lcm(temp, a[j]);
-                if (temp > mx)
-                    break;
-                if ((pre[j] - pre[i - 1]) % temp == 0)
-                    ans++;
+                ans[v[i] - 1] = d.back();
+                d.pop_back();
             }
+            else
+            {
+                ans[v[i] - 1] = d.front();
+                d.pop_front();
+            }
+            // cout << ans << " ";
         }
+        ans[v[i] - 1] = d.front();
         cout << ans << "\n";
     }
 }
