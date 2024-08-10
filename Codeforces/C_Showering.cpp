@@ -59,43 +59,26 @@ int main()
     optimize();
     ll t;
     cin >> t;
-    for (ll z = 1; z <= t; z++)
+    while (t--)
     {
-        cout << "Case " << z << ":\n";
-        ll n, i, m;
-        cin >> n;
-        map<string, map<char, ll>> count;
+        ll n, s, m, i;
+        cin >> n >> s >> m;
+        ll current = 0, ans = 0;
+
         for (i = 0; i < n; i++)
         {
-            string temp;
-            cin >> temp;
-            for (auto x : temp)
-                count[temp][x]++;
+            ll x, y, temp;
+            cin >> x >> y;
+            temp = x - current;
+            ans = max(ans, temp);
+            current = y;
+            // cout<<temp<<"\n";
         }
-        cin >> m;
-        while (m--)
-        {
-            string in;
-            cin >> in;
-            map<char, ll> current;
-            for (auto x : in)
-                current[x]++;
-            ll ans = 0;
-            for (auto x : count)
-            {
-                bool ch = true;
-                for (auto y : x.second)
-                {
-                    if (y.second > current[y.first])
-                    {
-                        ch = false;
-                        break;
-                    }
-                }
-                if (ch)
-                    ans++;
-            }
-            cout << ans << "\n";
-        }
+        ans = max(ans, m - current);
+        if (ans >= s)
+            cout << "YES";
+        else
+            cout << "NO";
+        cout << "\n";
     }
 }
