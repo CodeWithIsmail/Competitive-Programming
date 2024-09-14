@@ -54,34 +54,40 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-void printNcR(ll n, ll r)
+vl input, current;
+ll n, l, r, x, countt = 0;
+void generateCombinations(ll index)
 {
-    ll p = 1, k = 1;
-    if (n - r < r)
-        r = n - r;
-
-    if (r != 0)
+    if (current.size() >= 2)
     {
-        while (r)
+        ll mx = -1, mn = LONG_LONG_MAX, sum = 0;
+        for (auto x : current)
         {
-            p *= n;
-            k *= r;
-            ll m = __gcd(p, k);
-            p /= m;
-            k /= m;
-            n--;
-            r--;
+            mx = max(mx, x);
+            mn = min(mn, x);
+            sum += x;
         }
+        if (sum >= l && sum <= r && mx - mn >= x)
+            countt++;
     }
 
-    else
-        p = 1;
-    cout << p << endl;
+    for (ll i = index; i < input.size(); i++)
+    {
+        current.pb(input[i]);
+        generateCombinations(i + 1);
+        current.pop_back();
+    }
 }
 int main()
 {
     optimize();
-    ll n;
-    cin >> n;
-    printNcR(n-1,11);
+    cin >> n >> l >> r >> x;
+    for (ll i = 0; i < n; i++)
+    {
+        ll temp;
+        cin >> temp;
+        input.pb(temp);
+    }
+    generateCombinations(0);
+    cout << countt;
 }

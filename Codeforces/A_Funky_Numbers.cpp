@@ -30,7 +30,7 @@ typedef vector<pll> vpl;
 #define sqr(a) ((a) * (a))
 ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
-#define YES printf("YES");
+#define YES printf("YES\n");
 #define Yes printf("Yes");
 #define NO printf("NO");
 #define No printf("No");
@@ -54,34 +54,27 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-void printNcR(ll n, ll r)
-{
-    ll p = 1, k = 1;
-    if (n - r < r)
-        r = n - r;
-
-    if (r != 0)
-    {
-        while (r)
-        {
-            p *= n;
-            k *= r;
-            ll m = __gcd(p, k);
-            p /= m;
-            k /= m;
-            n--;
-            r--;
-        }
-    }
-
-    else
-        p = 1;
-    cout << p << endl;
-}
 int main()
 {
     optimize();
-    ll n;
+    ll n, cur = 1, temp = 0;
     cin >> n;
-    printNcR(n-1,11);
+    map<ll, ll> v;
+    vl vv;
+    while (temp <= n)
+    {
+        temp = (cur * (cur + 1)) / 2;
+        vv.pb(temp);
+        v[temp]++;
+        cur++;
+    }
+    for (auto x : vv)
+    {
+        ll need = n - x;
+        if (v[need] > 0)
+        {
+            YES return 0;
+        }
+    }
+    NO
 }

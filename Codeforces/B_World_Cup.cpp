@@ -54,34 +54,21 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-void printNcR(ll n, ll r)
-{
-    ll p = 1, k = 1;
-    if (n - r < r)
-        r = n - r;
-
-    if (r != 0)
-    {
-        while (r)
-        {
-            p *= n;
-            k *= r;
-            ll m = __gcd(p, k);
-            p /= m;
-            k /= m;
-            n--;
-            r--;
-        }
-    }
-
-    else
-        p = 1;
-    cout << p << endl;
-}
 int main()
 {
     optimize();
-    ll n;
+    ll n, i, temp;
     cin >> n;
-    printNcR(n-1,11);
+    vpl v;
+    for (i = 0; i < n; i++)
+    {
+        cin >> temp;
+        if (temp % n < i + 1)
+            v.pb({temp / n, i + 1});
+        else
+            v.pb({(temp + n - 1) / n, i + 1});
+    }
+    sort(all(v));
+    // for(auto x:v) cout<<x.first<<" "<<x.second<<"\n";
+    cout << v.front().second;
 }

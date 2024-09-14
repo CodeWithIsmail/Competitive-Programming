@@ -51,37 +51,56 @@ const ll infLL = 9000000000000000000;
 // Fraction:
 #define fraction()                \
     cout.unsetf(ios::floatfield); \
-    cout.precision(10);           \
+    cout.precision(12);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-void printNcR(ll n, ll r)
+set<string> all;
+void genAllComb(string a, ll index)
 {
-    ll p = 1, k = 1;
-    if (n - r < r)
-        r = n - r;
-
-    if (r != 0)
+    if (index == a.size())
     {
-        while (r)
-        {
-            p *= n;
-            k *= r;
-            ll m = __gcd(p, k);
-            p /= m;
-            k /= m;
-            n--;
-            r--;
-        }
+        all.insert(a);
+        return;
     }
-
+    if (a[index] == '?')
+    {
+        a[index] = '+';
+        genAllComb(a, index + 1);
+        a[index] = '-';
+        genAllComb(a, index + 1);
+    }
     else
-        p = 1;
-    cout << p << endl;
+        genAllComb(a, index + 1);
 }
+
 int main()
 {
     optimize();
-    ll n;
-    cin >> n;
-    printNcR(n-1,11);
+    string a, b;
+    cin >> a >> b;
+    genAllComb(b, 0);
+    ll total = all.size(), count = 0, need = 0;
+    for (auto x : a)
+    {
+        if (x == '+')
+            need++;
+        else
+            need--;
+    }
+
+    for (auto x : all)
+    {
+        ll cost = 0;
+        for (auto z : x)
+        {
+            if (z == '+')
+                cost++;
+            else
+                cost--;
+        }
+        if (cost == need)
+            count++;
+    }
+    fraction();
+    cout << (double)count / total << "\n";
 }
