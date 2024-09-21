@@ -1,4 +1,6 @@
+///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
 
+///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -55,32 +57,13 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, atp, i;
-    cin >> n >> atp;
-    ll a[n];
-    multiset<ll> current;
-    ll bal = atp;
-    for (i = 0; i < n; i++)
+    ll t;
+    cin >> t;
+    while (t--)
     {
-        cin >> a[i];
-        if (a[i] <= bal)
-        {
-            current.insert(a[i]);
-            bal -= a[i];
-        }
-        else
-        {
-            ll largest = *current.rbegin();
-            ll dif = largest - a[i];
-            if (dif > 0)
-            {
-                auto largest_it = current.end();
-                --largest_it;
-                current.erase(largest_it);
-                current.insert(a[i]);
-                bal += dif;
-            }
-        }
-        cout << current.size() << "\n";
+        ll n, x, y;
+        cin >> n >> x >> y;
+        ll m = min(x, y);
+        cout << (n + m - 1) / m << "\n";
     }
 }

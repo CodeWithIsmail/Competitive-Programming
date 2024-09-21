@@ -1,8 +1,4 @@
 
-///   ***   ---   ||         In the name of ALLAH        |||   ---   ***   ///
-
-///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -29,6 +25,8 @@ typedef vector<pll> vpl;
 #define sz(x) (int)x.size()
 #define mem(a, b) memset(a, b, sizeof(a))
 #define sqr(a) ((a) * (a))
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 #define YES printf("YES");
 #define Yes printf("Yes");
 #define NO printf("NO");
@@ -53,36 +51,26 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-ll pre[2005], mx = 2000 * 1e9;
-
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i;
+    string a, b;
+    cin >> n >> a >> b;
+    bool ans = true;
+    map<char, pair<char, char>> tar;
+    tar['A'] = {'A', 'T'};
+    tar['G'] = {'G', 'C'};
+    tar['C'] = {'C', 'G'};
+    tar['T'] = {'T', 'A'};
+    for (i = 0; i < n; i++)
     {
-        ll n, i, j, ans = 0;
-        cin >> n;
-        ll a[n + 1];
-        pre[0] = 0;
-        for (i = 1; i <= n; i++)
+        if (tar[a[i]].first != b[i] && tar[a[i]].second != b[i])
         {
-            cin >> a[i];
-            pre[i] = a[i] + pre[i - 1];
+            ans = false;
+            break;
         }
-        for (i = 1; i <= n; i++)
-        {
-            ll temp = a[i];
-            for (j = i; j <= n; j++)
-            {
-                temp = lcm(temp, a[j]);
-                if (temp > mx)
-                    break;
-                if ((pre[j] - pre[i - 1]) % temp == 0)
-                    ans++;
-            }
-        }
-        cout << ans << "\n";
     }
+    if (ans)
+        YES else NO
 }
