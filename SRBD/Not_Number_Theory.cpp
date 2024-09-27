@@ -57,27 +57,53 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
+    vpl v;
+    ll limit = 99999;
+    for (int num = 1; num <= limit; ++num)
+    {
+        string bitstr = bitset<17>(num).to_string();
+        ll count = 0;
+        for (auto x : bitstr)
+        {
+            if (x == '1')
+                count++;
+        }
+        v.pb({count, num});
+        // cout << num << ": " << bitstr << endl;
+    }
+    sort(rall(v));
+
     ll t;
     cin >> t;
     while (t--)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
+        string a;
+        cin >> a;
+        ll ans = 0;
+        for (auto x : v)
         {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
+            string str = to_string(x.second);
+            bool check = true;
+            if (str.size() == a.size())
+            {
+                for (ll z = 0; z < str.size(); z++)
+                {
+                    if (a[z] != '?')
+                    {
+                        if (a[z] != str[z])
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+                }
+                if (check)
+                {
+                    ans = stoll(str);
+                    break;
+                }
+            }
         }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
-        }
+        cout<<ans<<"\n";
     }
 }

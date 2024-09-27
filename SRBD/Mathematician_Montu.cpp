@@ -54,30 +54,65 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+ll euler_totient(ll n)
+{
+    ll result = n;
+    for (ll p = 2; p * p <= n; p++)
+    {
+        if (n % p == 0)
+        {
+            while (n % p == 0)
+                n /= p;
+            result -= result / p;
+        }
+    }
+    if (n > 1)
+        result -= result / n;
+    return result;
+}
+vl find_divisors(ll n)
+{
+    vl divisors;
+    for (ll i = 1; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            divisors.pb(i);
+            if (i != n / i)
+            {
+                divisors.pb(n / i);
+            }
+        }
+    }
+    return divisors;
+}
 int main()
 {
     optimize();
-    ll t;
+    ll t, k;
     cin >> t;
-    while (t--)
+    for (k = 1; k <= t; k++)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
+        cout << "Case " << k << ": ";
+        ll N, Q, i;
+        cin >> N >> Q;
+        vl M(Q);
+        for (i = 0; i < Q; i++)
+            cin >> M[i];
+
+        vl divisors = find_divisors(N);
+        map<ll, ll> totient_map;
+        for (ll d : divisors)
+            totient_map[d] = euler_totient(N / d);
+
+        for (i = 0; i < Q; i++)
         {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
+            ll M_value = M[i];
+            if (N % M_value != 0)
+                cout << 0 << ' ';
+            else
+                cout << totient_map[M_value] << ' ';
         }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
-        }
+        cout << "\n";
     }
 }

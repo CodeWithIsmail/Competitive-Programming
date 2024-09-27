@@ -57,27 +57,38 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n1, n2, n3, i;
+    cin >> n1 >> n2 >> n3;
+    vl a(n1), b(n2), c(n3);
+    for (i = 0; i < n1; i++)
+        cin >> a[i];
+    for (i = 0; i < n2; i++)
+        cin >> b[i];
+    for (i = 0; i < n3; i++)
+        cin >> c[i];
+    reverse(all(a));
+    reverse(all(b));
+    reverse(all(c));
+    for (i = 1; i < n1; i++)
+        a[i] += a[i - 1];
+    for (i = 1; i < n2; i++)
+        b[i] += b[i - 1];
+    for (i = 1; i < n3; i++)
+        c[i] += c[i - 1];
+    map<ll, bool> checkb, checkc;
+
+    for (i = 0; i < n2; i++)
+        checkb[b[i]] = true;
+    for (i = 0; i < n3; i++)
+        checkc[c[i]] = true;
+    ll ans = 0;
+    for (i = n1 - 1; i >= 0; i--)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
+        if (checkb[a[i]] == true && checkc[a[i]] == true)
         {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
-        }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
+            ans = a[i];
+            break;
         }
     }
+    cout << ans;
 }

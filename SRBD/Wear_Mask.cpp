@@ -61,23 +61,15 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
-        {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
-        }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
-        }
+        ll x, y;
+        cin >> x >> y;
+        ll a = x / 3;
+        if (x % 3)
+            a++;
+        ll b = y / 3;
+        if (y % 3)
+            b++;
+        ll ans = a * b;
+        cout <<max(ans,1ll) << "\n";
     }
 }

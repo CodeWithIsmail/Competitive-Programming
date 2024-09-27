@@ -57,27 +57,49 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i;
+    cin >> n;
+    ll a[n];
+    vector<pair<ll, vl>> v;
+    for (i = 0; i < n; i++)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
+        cin >> a[i];
+        ll cur = a[i];
+        vl temp;
+        for (ll st = 2; st * st <= cur; st++)
         {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
+            if (cur % st == 0)
+            {
+                temp.pb(st);
+                while (cur % st == 0)
+                    cur /= st;
+            }
         }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
-        }
+
+        if (cur > 1)
+            temp.pb(cur);
+        v.pb({temp.size(), temp});
     }
+    sort(rall(v));
+    map<ll, ll> check;
+    ll ans = 0;
+    for (i = 0; i < n; i++)
+    {
+        vl cur = v[i].second;
+        bool current_check = false;
+        for (auto x : cur)
+        {
+            if (check[x])
+            {
+                current_check = true;
+                break;
+            }
+        }
+        if (current_check == false)
+            ans++;
+        for (auto x : cur)
+            check[x] = true;
+    }
+
+    cout << ans;
 }

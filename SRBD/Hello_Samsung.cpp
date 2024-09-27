@@ -30,9 +30,9 @@ typedef vector<pll> vpl;
 #define sqr(a) ((a) * (a))
 ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
-#define YES printf("YES");
-#define Yes printf("Yes");
-#define NO printf("NO");
+#define YES printf("SRBD");
+#define Yes printf("GHOST");
+#define NO printf("GHOST");
 #define No printf("No");
 
 // Const value:
@@ -57,27 +57,18 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    string a;
+    cin >> a;
+    string target = "Samsung";
+    ll current = 0;
+
+    for (auto x : a)
     {
-        ll n, d, k, i;
-        cin >> n >> d >> k;
-        vpl ap;
-        for (i = 0; i < k; i++)
-        {
-            ll x, y;
-            cin >> x >> y;
-            ap.pb({x, y});
-        }
-        sort(all(ap));
-        for (i = 1; i + d <= n; i++)
-        {
-            ll t1 = i, t2 = i + d - 1;
-            cout<<t1<<" "<<t2<<" : ";
-            auto it1 = upper_bound(all(ap), make_pair(t2, LONG_LONG_MAX));
-            auto it2 = lower_bound(all(ap), make_pair(t1, LONG_LONG_MIN));
-            cout << it1 - it2 << "\n";
-        }
+        if (x == target[current])
+            current++;
+        if (current == target.size())
+            break;
     }
+    if (current == target.size())
+        YES else NO
 }
