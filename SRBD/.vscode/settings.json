@@ -5,6 +5,7 @@
         "functional": "cpp",
         "bitset": "cpp",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "*.tcc": "cpp"
     }
 }
