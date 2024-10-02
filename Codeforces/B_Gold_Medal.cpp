@@ -61,63 +61,33 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, m, k, i, ans = 0;
-        cin >> n >> k;
-        ll a[n];
-        for (i = 0; i < n; i++)
-            cin >> a[i];
-        cin >> m;
+        ll n, m, k, i, in, ans = 0;
         vpl v;
+        cin >> n >> k;
         for (i = 0; i < n; i++)
         {
-            ll need = 0;
-            ll temp = a[i] / k;
-            ll target = (temp + 1) * k;
-            ll dif = target - a[i];
-            if (dif == k)
-                need = 0;
-            else
-                need = dif;
-            v.pb({need, a[i]});
+            cin >> in;
+            v.pb({max(k - in % k, 0ll), in});
         }
-
         sort(all(v));
+        cin >> m;
+
         ll fr = -1, ed = -1;
         for (auto x : v)
         {
             ll current = x.second / k;
-            if (x.first == 0)
+            if (x.first <= m)
             {
-                fr = current;
-                ed = x.second;
-                ans += current;
-            }
-            else
-            {
-                if (x.first <= m)
-                {
+                if (x.first > 0)
                     current++;
-                    m -= x.first;
-
-                    if (fr == -1)
-                    {
-                        fr = current;
-                        ed = x.second;
-                    }
-                }
-                ans += current;
+                m -= x.first;
+                fr = current;
+                ed = x.second + x.first;
             }
+            ans += current;
         }
-
-        // cout << ans << " ";
-
         if (m > 0 && fr != -1)
-        {
-            ans -= fr;
-            ans += (ed + m) / k;
-        }
-        // m = max(0ll, m);
-        // ans += m / k;
+            ans = ans - fr + (ed + m) / k;
 
         cout << ans << "\n";
     }

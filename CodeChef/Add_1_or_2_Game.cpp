@@ -61,64 +61,36 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, m, k, i, ans = 0;
-        cin >> n >> k;
-        ll a[n];
-        for (i = 0; i < n; i++)
-            cin >> a[i];
-        cin >> m;
-        vpl v;
-        for (i = 0; i < n; i++)
+        ll n;
+        cin >> n;
+        ll in = 0;
+        while (in < n)
         {
-            ll need = 0;
-            ll temp = a[i] / k;
-            ll target = (temp + 1) * k;
-            ll dif = target - a[i];
-            if (dif == k)
-                need = 0;
+            ll temp1 = in + 1;
+            ll temp2 = in + 2;
+            ll need1 = n - temp1;
+            ll need2 = n - temp2;
+            if (need1 < 0 || need1 > 2)
+                in = temp1;
             else
-                need = dif;
-            v.pb({need, a[i]});
-        }
+                in = temp2;
 
-        sort(all(v));
-        ll fr = -1, ed = -1;
-        for (auto x : v)
-        {
-            ll current = x.second / k;
-            if (x.first == 0)
-            {
-                fr = current;
-                ed = x.second;
-                ans += current;
-            }
+            if (in >= n)
+                break;
+
+            temp1 = in + 1;
+            temp2 = in + 2;
+            need1 = n - temp1;
+            need2 = n - temp2;
+            if (need1 == 0 || need1 == 2)
+                in = temp1;
             else
-            {
-                if (x.first <= m)
-                {
-                    current++;
-                    m -= x.first;
-
-                    if (fr == -1)
-                    {
-                        fr = current;
-                        ed = x.second;
-                    }
-                }
-                ans += current;
-            }
+                in = temp2;
         }
-
-        // cout << ans << " ";
-
-        if (m > 0 && fr != -1)
-        {
-            ans -= fr;
-            ans += (ed + m) / k;
-        }
-        // m = max(0ll, m);
-        // ans += m / k;
-
-        cout << ans << "\n";
+        if (in == n)
+            cout << "BOB";
+        else
+            cout << "ALICE";
+        cout << "\n";
     }
 }

@@ -57,33 +57,53 @@ const ll infLL = 9000000000000000000;
 const ll mx = 200000 + 5;
 map<ll, bool> vis, ignore;
 ll n;
-ll coun = 0;
-void dfs(vector<set<ll>> adList, ll current)
+ll coun = 0, dead = 0;
+vector<set<ll>> dfs(vector<set<ll>> adList, ll current)
 {
-    cout << current << " ";
+    // cout << current << " ";
     vis[current] = true;
-    if (adList.size() == 0)
+    // if (current == 2)
+    // {
+    //     cout << "adlist of 2: ";
+    //     for (auto x : adList[current])
+    //         cout << x << " ";
+    //     cout << "\n";
+    // }
+
+    if (adList[current].size() == 0)
     {
+        // cout << "survived: " << current << " ";
         coun++;
-        return;
+        // return;
     }
     else
     {
         ll fr = *adList[current].begin();
         if (fr > current)
         {
-            for (auto x : adList[current])
-            {
-                adList[current].erase(x);
-            }
+            cout << "dead: " << current << "\n";
+            dead++;
+            // cout << adList[current].size() << " ";
+            adList[current].clear();
+            // cout << adList[current].size() << " ";
+            // for (auto x : adList[current])
+            // {
+            //     cout<<x<<" ";
+            // }
             for (ll z = 1; z <= n; z++)
             {
-                if (adList[z].count(current))
+                if (adList[z].count(current) > 0)
                     adList[z].erase(current);
             }
+            // cout << adList[2].size() << " ";
+            // cout << "adlist of 2: ";
+            // for (auto x : adList[current])
+            //     cout << x << " ";
+            // cout << "\n";
         }
         else
         {
+            // cout << current << " ";
             ll tem = 0;
             for (auto x : adList[current])
             {
@@ -98,17 +118,21 @@ void dfs(vector<set<ll>> adList, ll current)
                 coun++;
         }
     }
-    cout << "-1\n";
+    return adList;
+    // cout << "-1\n";
 }
 void solve(vector<set<ll>> adList)
 {
+    vector<set<ll>> templist = adList;
     for (ll i = 1; i <= n; i++)
     {
         if (!vis[i])
-            dfs(adList, i);
+            templist = dfs(templist, i);
+        // cout << "\n";
     }
-    cout << coun << "\n";
+    cout << n - dead << "\n";
     coun = 0;
+    dead = 0;
     vis.clear();
 }
 int main()
