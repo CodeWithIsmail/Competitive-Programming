@@ -54,79 +54,73 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 1e7 + 12;
+vl power4th, primes, spPrimes;
+bool isPrime[mx];
+
+void primeGen()
+{
+    ll i, j;
+    primes.pb(2);
+    for (i = 3; i <= mx; i += 2)
+        isPrime[i] = true;
+    for (i = 3; i <= sqrt(mx); i += 2)
+    {
+        if (isPrime[i])
+        {
+            for (j = i * i; j <= mx; j += i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+    for (i = 3; i <= mx; i += 2)
+    {
+        if (isPrime[i])
+            primes.pb(i);
+    }
+}
+void gen4thpower()
+{
+    for (ll i = 1;; i++)
+    {
+        ll temp = i * i * i * i;
+        if (temp > 1e7)
+            break;
+        power4th.pb(temp);
+    }
+}
+void getSpecialPrime()
+{
+    for (auto x : primes)
+    {
+        for (auto z : power4th)
+        {
+            if (z > x)
+                break;
+            ll need = x - z;
+            ll root = sqrt(need);
+            if (root * root == need)
+            {
+                spPrimes.pb(x);
+                break;
+            }
+        }
+    }
+}
+
 int main()
 {
     optimize();
-    ll n, m, i, j, q;
-    cin >> n >> m;
-    ll weaker[n + 1] = {0}, total[n + 1] = {0};
-    set<ll> eql;
-    for (i = 0; i < m; i++)
+    gen4thpower();
+    primeGen();
+    getSpecialPrime();
+    ll t;
+    cin >> t;
+    while (t--)
     {
-        ll u, v;
-        cin >> u >> v;
-        total[u]++;
-        total[v]++;
-        if (u < v)
-            weaker[v]++;
-        else
-            weaker[u]++;
-    }
-    for (i = 1; i <= n; i++)
-    {
-        if (total[i] == weaker[i])
-            eql.insert(i);
-    }
-    cin >> q;
-    while (q--)
-    {
-        ll type;
-        cin >> type;
-        if (type == 3)
-        {
-            cout << eql.size() << "\n";
-        }
-        else
-        {
-            ll u, v;
-            cin >> u >> v;
-            if (type == 1)
-            {
-                total[u]++;
-                total[v]++;
-                if (u < v)
-                    weaker[v]++;
-                else
-                    weaker[u]++;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-            else
-            {
-                total[u]--;
-                total[v]--;
-                if (u < v)
-                    weaker[v]--;
-                else
-                    weaker[u]--;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-        }
+        ll n, i, ans = 0;
+        cin >> n;
+        cout << upper_bound(all(spPrimes), n) - spPrimes.begin() << "\n";
     }
 }

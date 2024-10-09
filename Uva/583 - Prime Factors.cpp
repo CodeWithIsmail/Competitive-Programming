@@ -54,79 +54,71 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 1e7 + 12;
+vl primes;
+bool isPrime[mx];
+void primeGen(ll limit)
+{
+    ll i, j;
+    for (j = 3; j <= limit; j += 2)
+        isPrime[j] = true;
+    for (i = 3; i <= sqrt(limit); i += 2)
+    {
+        if (isPrime[i])
+        {
+            for (j = i * i; j <= limit; j += i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+    primes.pb(2);
+    for (i = 3; i <= limit; i += 2)
+    {
+        if (isPrime[i])
+            primes.pb(i);
+    }
+}
+void factorize(ll n)
+{
+    vl factors;
+    cout << n << " = ";
+    if (n < 0)
+    {
+        factors.pb(-1);
+        n *= -1;
+    }
+
+    for (auto x : primes)
+    {
+        if (x * x > n)
+            break;
+        while (n % x == 0)
+        {
+            n /= x;
+            factors.pb(x);
+        }
+    }
+    if (n > 1)
+        factors.pb(n);
+    for (ll i = 0; i < factors.size(); i++)
+    {
+        if (i == factors.size() - 1)
+            cout << factors[i] << "\n";
+        else
+            cout << factors[i] << " x ";
+    }
+}
 int main()
 {
     optimize();
-    ll n, m, i, j, q;
-    cin >> n >> m;
-    ll weaker[n + 1] = {0}, total[n + 1] = {0};
-    set<ll> eql;
-    for (i = 0; i < m; i++)
+    primeGen(1e7);
+    while (1)
     {
-        ll u, v;
-        cin >> u >> v;
-        total[u]++;
-        total[v]++;
-        if (u < v)
-            weaker[v]++;
-        else
-            weaker[u]++;
-    }
-    for (i = 1; i <= n; i++)
-    {
-        if (total[i] == weaker[i])
-            eql.insert(i);
-    }
-    cin >> q;
-    while (q--)
-    {
-        ll type;
-        cin >> type;
-        if (type == 3)
-        {
-            cout << eql.size() << "\n";
-        }
-        else
-        {
-            ll u, v;
-            cin >> u >> v;
-            if (type == 1)
-            {
-                total[u]++;
-                total[v]++;
-                if (u < v)
-                    weaker[v]++;
-                else
-                    weaker[u]++;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-            else
-            {
-                total[u]--;
-                total[v]--;
-                if (u < v)
-                    weaker[v]--;
-                else
-                    weaker[u]--;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-        }
+        ll n;
+        cin >> n;
+        if (n == 0)
+            return 0;
+        factorize(n);
     }
 }

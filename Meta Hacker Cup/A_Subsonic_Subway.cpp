@@ -37,7 +37,7 @@ ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 
 // Const value:
 const double PI = acos(-1);
-const double eps = 1e-9;
+const double eps = 1e-6;
 const int inf = 2000000000;
 const ll infLL = 9000000000000000000;
 #define MOD 1000000007
@@ -57,76 +57,49 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, m, i, j, q;
-    cin >> n >> m;
-    ll weaker[n + 1] = {0}, total[n + 1] = {0};
-    set<ll> eql;
-    for (i = 0; i < m; i++)
+    ll t;
+    cin >> t;
+    while (t--)
     {
-        ll u, v;
-        cin >> u >> v;
-        total[u]++;
-        total[v]++;
-        if (u < v)
-            weaker[v]++;
-        else
-            weaker[u]++;
-    }
-    for (i = 1; i <= n; i++)
-    {
-        if (total[i] == weaker[i])
-            eql.insert(i);
-    }
-    cin >> q;
-    while (q--)
-    {
-        ll type;
-        cin >> type;
-        if (type == 3)
+        ll n, i;
+        cin >> n;
+        vector<pair<double, double>> v;
+        for (i = 0; i < n; i++)
         {
-            cout << eql.size() << "\n";
+            double x, y;
+            cin >> x >> y;
+            v.pb({x, y});
         }
-        else
+        double low = 1e-9, up = 1e18, ans = 1e18;
+        while (up - low >= eps)
         {
-            ll u, v;
-            cin >> u >> v;
-            if (type == 1)
+            double mid = (low + up) / 2.0;
+            bool check = true;
+            cout << mid << "\n";
+            for (i = 1; i <= n; i++)
             {
-                total[u]++;
-                total[v]++;
-                if (u < v)
-                    weaker[v]++;
+                double need = (double)i / mid;
+                if (need >= v[i - 1].first && need <= v[i - 1].second)
+                    ;
                 else
-                    weaker[u]++;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
+                {
+                    check = false;
+                    break;
+                }
+            }
+            if (check)
+            {
+                up = mid;
+                ans = min(ans, mid);
             }
             else
             {
-                total[u]--;
-                total[v]--;
-                if (u < v)
-                    weaker[v]--;
-                else
-                    weaker[u]--;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
+                 up = mid;
+              //  low = mid;
             }
         }
+        // if (ans == 1e18)
+        //     ans = -1;
+        cout << ans << "\n";
     }
 }

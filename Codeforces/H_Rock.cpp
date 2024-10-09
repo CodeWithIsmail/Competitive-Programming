@@ -57,76 +57,40 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, m, i, j, q;
+
+    ll n, m, i, j;
     cin >> n >> m;
-    ll weaker[n + 1] = {0}, total[n + 1] = {0};
-    set<ll> eql;
-    for (i = 0; i < m; i++)
+    ll a[n][m];
+    for (i = 0; i < n; i++)
     {
-        ll u, v;
-        cin >> u >> v;
-        total[u]++;
-        total[v]++;
-        if (u < v)
-            weaker[v]++;
-        else
-            weaker[u]++;
+        for (j = 0; j < m; j++)
+        {
+            cin >> a[i][j];
+        }
     }
-    for (i = 1; i <= n; i++)
-    {
-        if (total[i] == weaker[i])
-            eql.insert(i);
-    }
+    ll q;
     cin >> q;
     while (q--)
     {
-        ll type;
-        cin >> type;
-        if (type == 3)
+        ll i, c;
+        cin >> i >> c;
+        ll temp = a[i - 1][c - 1];
+        a[i - 1][c - 1] = a[i][c - 1];
+        a[i][c - 1] = a[i + 1][c - 1];
+        a[i + 1][c - 1] = a[i + 1][c];
+        a[i + 1][c] = a[i + 1][c + 1];
+        a[i + 1][c + 1] = a[i][c + 1];
+        a[i][c + 1] = a[i - 1][c + 1];
+        a[i - 1][c + 1] = a[i - 1][c];
+        a[i - 1][c] = temp;
+
+        for (i = 0; i < n; i++)
         {
-            cout << eql.size() << "\n";
-        }
-        else
-        {
-            ll u, v;
-            cin >> u >> v;
-            if (type == 1)
+            for (j = 0; j < m; j++)
             {
-                total[u]++;
-                total[v]++;
-                if (u < v)
-                    weaker[v]++;
-                else
-                    weaker[u]++;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
+                cout << a[i][j] << " ";
             }
-            else
-            {
-                total[u]--;
-                total[v]--;
-                if (u < v)
-                    weaker[v]--;
-                else
-                    weaker[u]--;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
+            cout << "\n";
         }
     }
 }

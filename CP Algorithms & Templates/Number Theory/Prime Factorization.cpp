@@ -2,6 +2,16 @@
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
 
+/*
+
+sample problem:
+
+https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=524
+https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2461
+https://www.spoj.com/problems/MAIN12B/
+
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -54,79 +64,58 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 1e7 + 12;
+bool isPrime[mx];
+vl primes;
+vl PrimeFactors;
+void primeGen(ll limit)
+{
+    int i, j;
+    isPrime[2] = true;
+    for (i = 3; i <= limit; i += 2)
+        isPrime[i] = true;
+    primes.push_back(2);
+    for (i = 3; i <= sqrt(limit); i += 2)
+    {
+        if (isPrime[i])
+        {
+            for (j = i * i; j <= limit; j += i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+    for (i = 3; i <= limit; i += 2)
+    {
+        if (isPrime[i])
+            primes.push_back(i);
+    }
+}
+void factorize(ll n)
+{
+    for (auto x : primes)
+    {
+        if (x * x > n)
+            break;
+        if (n % x == 0)
+        {
+            while (n % x == 0)
+            {
+                n /= x;
+                PrimeFactors.pb(x);
+            }
+        }
+    }
+    if (n > 1)
+        PrimeFactors.pb(n);
+}
 int main()
 {
     optimize();
-    ll n, m, i, j, q;
-    cin >> n >> m;
-    ll weaker[n + 1] = {0}, total[n + 1] = {0};
-    set<ll> eql;
-    for (i = 0; i < m; i++)
-    {
-        ll u, v;
-        cin >> u >> v;
-        total[u]++;
-        total[v]++;
-        if (u < v)
-            weaker[v]++;
-        else
-            weaker[u]++;
-    }
-    for (i = 1; i <= n; i++)
-    {
-        if (total[i] == weaker[i])
-            eql.insert(i);
-    }
-    cin >> q;
-    while (q--)
-    {
-        ll type;
-        cin >> type;
-        if (type == 3)
-        {
-            cout << eql.size() << "\n";
-        }
-        else
-        {
-            ll u, v;
-            cin >> u >> v;
-            if (type == 1)
-            {
-                total[u]++;
-                total[v]++;
-                if (u < v)
-                    weaker[v]++;
-                else
-                    weaker[u]++;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-            else
-            {
-                total[u]--;
-                total[v]--;
-                if (u < v)
-                    weaker[v]--;
-                else
-                    weaker[u]--;
-
-                if (weaker[v] == total[v])
-                    eql.insert(v);
-                else
-                    eql.erase(v);
-                if (weaker[u] == total[u])
-                    eql.insert(u);
-                else
-                    eql.erase(u);
-            }
-        }
-    }
+    primeGen(1e7);
+    ll n;
+    cin >> n;
+    factorize(n);
+    for (auto x : PrimeFactors)
+        cout << x << " ";
 }
