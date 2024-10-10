@@ -2,18 +2,6 @@
 
 ///   ***   ---   ||       Author: Code_with_Ismail      |||   ---   ***   ///
 
-/*
-
-sample problem:
-
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=524
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2461
-https://www.spoj.com/problems/MAIN12B/
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/P
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/G
-
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -66,58 +54,19 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
-const ll mx = 1e7 + 12;
-bool isPrime[mx];
-vl primes;
-vl PrimeFactors;
-void primeGen(ll limit)
+ll SNOD(ll n)
 {
-    int i, j;
-    isPrime[2] = true;
-    for (i = 3; i <= limit; i += 2)
-        isPrime[i] = true;
-    primes.push_back(2);
-    for (i = 3; i <= sqrt(limit); i += 2)
-    {
-        if (isPrime[i])
-        {
-            for (j = i * i; j <= limit; j += i)
-            {
-                isPrime[j] = false;
-            }
-        }
-    }
-    for (i = 3; i <= limit; i += 2)
-    {
-        if (isPrime[i])
-            primes.push_back(i);
-    }
-}
-void factorize(ll n)
-{
-    for (auto x : primes)
-    {
-        if (x * x > n)
-            break;
-        if (n % x == 0)
-        {
-            while (n % x == 0)
-            {
-                n /= x;
-                PrimeFactors.pb(x);
-            }
-        }
-    }
-    if (n > 1)
-        PrimeFactors.pb(n);
+    ll i, snod = 0, sq = sqrt(n);
+    for (i = 1; i <= sq; i++)
+        snod += n / i - i;
+    snod *= 2;
+    snod += sq;
+    return snod;
 }
 int main()
 {
     optimize();
-    primeGen(1e7);
     ll n;
     cin >> n;
-    factorize(n);
-    for (auto x : PrimeFactors)
-        cout << x << " ";
+    cout << SNOD(n);
 }

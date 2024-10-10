@@ -6,11 +6,9 @@
 
 sample problem:
 
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=524
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2461
-https://www.spoj.com/problems/MAIN12B/
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/P
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/G
+https://www.hackerearth.com/problem/algorithm/number-of-divisors-5/
+https://www.hackerearth.com/problem/algorithm/number-of-divisors-14/
+https://lightoj.com/problem/false-ordering
 
 */
 
@@ -69,7 +67,6 @@ const ll infLL = 9000000000000000000;
 const ll mx = 1e7 + 12;
 bool isPrime[mx];
 vl primes;
-vl PrimeFactors;
 void primeGen(ll limit)
 {
     int i, j;
@@ -93,23 +90,27 @@ void primeGen(ll limit)
             primes.push_back(i);
     }
 }
-void factorize(ll n)
+ll NOD(ll n)
 {
+    ll nod = 1;
     for (auto x : primes)
     {
         if (x * x > n)
             break;
         if (n % x == 0)
         {
+            ll count = 1;
             while (n % x == 0)
             {
                 n /= x;
-                PrimeFactors.pb(x);
+                count++;
             }
+            nod *= count;
         }
     }
     if (n > 1)
-        PrimeFactors.pb(n);
+        nod *= 2;
+    return nod;
 }
 int main()
 {
@@ -117,7 +118,5 @@ int main()
     primeGen(1e7);
     ll n;
     cin >> n;
-    factorize(n);
-    for (auto x : PrimeFactors)
-        cout << x << " ";
+    cout << NOD(n);
 }

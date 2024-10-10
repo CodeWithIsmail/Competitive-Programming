@@ -6,11 +6,8 @@
 
 sample problem:
 
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=524
-https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2461
-https://www.spoj.com/problems/MAIN12B/
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/P
-https://codeforces.com/group/isP4JMZTix/contest/397371/problem/G
+https://www.spoj.com/problems/DIVSUM/
+https://www.spoj.com/problems/DIVSUM2/
 
 */
 
@@ -69,7 +66,6 @@ const ll infLL = 9000000000000000000;
 const ll mx = 1e7 + 12;
 bool isPrime[mx];
 vl primes;
-vl PrimeFactors;
 void primeGen(ll limit)
 {
     int i, j;
@@ -93,23 +89,27 @@ void primeGen(ll limit)
             primes.push_back(i);
     }
 }
-void factorize(ll n)
+ll SODusingFactorize(ll n)
 {
+    ll sod = 1;
     for (auto x : primes)
     {
         if (x * x > n)
             break;
         if (n % x == 0)
         {
+            ll current = 1, sum = 1;
             while (n % x == 0)
             {
                 n /= x;
-                PrimeFactors.pb(x);
+                current *= x;
+                sum += current;
             }
+            sod *= sum;
         }
     }
     if (n > 1)
-        PrimeFactors.pb(n);
+        sod *= (1 + n);
 }
 int main()
 {
@@ -117,7 +117,5 @@ int main()
     primeGen(1e7);
     ll n;
     cin >> n;
-    factorize(n);
-    for (auto x : PrimeFactors)
-        cout << x << " ";
+    cout << SODusingFactorize(n);
 }
