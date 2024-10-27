@@ -6,7 +6,7 @@
 using namespace std;
 
 // Data Type:
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -57,49 +57,25 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, i, t;
+    cin >> n >> t;
+    ll a[n];
+    for (i = 0; i < n; i++)
+        cin >> a[i];
+    ll low = 1, up = 1e17, ans = 1e18;
+    while (low <= up)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        ll mid = (low + up) / 2;
+        ll can = 0;
+        for (i = 0; i < n; i++)
+            can += mid / a[i];
+        if (can >= t && can > 0)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            ans = min(ans, mid);
+            up = mid - 1;
         }
-        cout << "\n";
+        else
+            low = mid + 1;
     }
+    cout << ans;
 }

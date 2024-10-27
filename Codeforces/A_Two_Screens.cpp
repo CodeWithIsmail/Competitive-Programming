@@ -61,45 +61,14 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
-        }
-        cout << "\n";
+        string a, b;
+        cin >> a >> b;
+        ll i;
+        for (i = 0; i < min(a.size(), b.size()) && a[i] == b[i]; i++)
+            ;
+        ll ans = a.size() - i + b.size() - i;
+        if (i > 0)
+            ans += i + 1;
+        cout << ans << "\n";
     }
 }

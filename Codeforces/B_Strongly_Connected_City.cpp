@@ -54,52 +54,73 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+map<pll, vpl> adList;
+map<pll, bool> vis;
+ll n, m;
+void dfs(pll cur)
+{
+    vis[cur] = true;
+    for (auto x : adList[cur])
+    {
+        if (!vis[x])
+        {
+            dfs(x);
+        }
+    }
+}
+bool checkVis()
+{
+    for (ll k = 1; k <= n; k++)
+    {
+        for (ll z = 1; z <= m; z++)
+        {
+            if (!vis[{k, z}])
+            {
+                return false;
+            }
+        }
+    }
+    vis.clear();
+    return true;
+}
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll i, j;
+    string h, v;
+    cin >> n >> m >> h >> v;
+    for (i = 1; i <= n; i++)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        for (j = 1; j <= m; j++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            if (h[i - 1] == '<' && j > 1)
+                adList[{i, j}].pb({i, j - 1});
+            if (h[i - 1] == '>' && j < m)
+                adList[{i, j}].pb({i, j + 1});
         }
-        cout << "\n";
     }
+    for (i = 1; i <= m; i++)
+    {
+        for (j = 1; j <= n; j++)
+        {
+            if (v[i - 1] == '^' && j > 1)
+                adList[{j, i}].pb({j - 1, i});
+            if (v[i - 1] == 'v' && j < n)
+                adList[{j, i}].pb({j + 1, i});
+        }
+    }
+
+    for (i = 1; i <= n; i++)
+    {
+        for (j = 1; j <= m; j++)
+        {
+            dfs({i, j});
+            if (!checkVis())
+            {
+                cout << "NO";
+                return 0;
+            }
+        }
+    }
+    cout << "YES";
 }

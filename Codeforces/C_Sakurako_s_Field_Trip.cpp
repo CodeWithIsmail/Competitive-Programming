@@ -54,6 +54,27 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+ll check(ll *a, ll n, ll i)
+{
+    return a[i] == a[i + 1];
+}
+ll magic(ll *a, ll n)
+{
+    ll count = 0, i;
+    for (i = 0; i < n / 2; i++)
+    {
+        ll target = n - i - 1;
+        ll prev = check(a, n, i) + check(a, n, target - 1);
+        swap(a[i], a[target]);
+        ll after = check(a, n, i) + check(a, n, target - 1);
+        swap(a[i], a[target]);
+        ll mn = min(prev, after);
+        if (target == i + 1)
+            mn = min(1ll, mn);
+        count += mn;
+    }
+    return count;
+}
 int main()
 {
     optimize();
@@ -61,45 +82,11 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
-        }
-        cout << "\n";
+        ll n, i;
+        cin >> n;
+        ll a[n];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        cout << magic(a, n) << "\n";
     }
 }

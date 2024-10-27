@@ -54,6 +54,17 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 3e5 + 12;
+ll dp[mx];
+ll solve(ll n)
+{
+    if (n <= 1)
+        return 1;
+    if (dp[n])
+        return dp[n];
+    dp[n] = (solve(n - 1) % MOD + (((n - 1) % MOD * solve(n - 2) % MOD) % MOD) * 2 % MOD) % MOD;
+    return dp[n];
+}
 int main()
 {
     optimize();
@@ -63,43 +74,15 @@ int main()
     {
         ll n, k, i;
         cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        memset(dp, 0, sizeof(dp));
+        set<ll> st;
+        while (k--)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            ll r, c;
+            cin >> r >> c;
+            st.insert(r);
+            st.insert(c);
         }
-        cout << "\n";
+        cout << solve(n - st.size()) << "\n";
     }
 }

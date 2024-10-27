@@ -61,45 +61,45 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        string a;
+        ll n, i;
+        cin >> n >> a;
+        // ll temp = 0;
+        // for (i = 0; i < n; i++)
+        // {
+        //     char x;
+        //     cin >> x;
+        //     if (i == 0)
+        //     {
+        //         a.pb(x);
+        //         // temp = 1;
+        //     }
+        //     else if (a.back() == x)
+        //     {
+        //         if (temp < 2)
+        //             a.pb(x);
+        //         temp++;
+        //     }
+        //     else if (a.back() != x)
+        //     {
+        //         temp = 1;
+        //         a.pb(x);
+        //     }
+        // }
+        // cout << a << "\n";
+        ll count = 0;
+        for (auto x : a)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            if (x == '1')
+                count++;
         }
+
+        ll target = (a.size() + 1) / 2;
+        // cout<<count<<" "<<target<<"\n";
+        if (count >= target)
+            cout << "YES";
+        else
+            cout << "NO";
         cout << "\n";
     }
 }

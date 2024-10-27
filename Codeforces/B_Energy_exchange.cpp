@@ -37,7 +37,7 @@ ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 
 // Const value:
 const double PI = acos(-1);
-const double eps = 1e-9;
+const double eps = 1e-6;
 const int inf = 2000000000;
 const ll infLL = 9000000000000000000;
 #define MOD 1000000007
@@ -51,55 +51,46 @@ const ll infLL = 9000000000000000000;
 // Fraction:
 #define fraction()                \
     cout.unsetf(ios::floatfield); \
-    cout.precision(10);           \
+    cout.precision(9);            \
     cout.setf(ios::fixed, ios::floatfield);
 
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
-    {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
 
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
+    ll n, k, i;
+    cin >> n >> k;
+    double a[n];
+    for (i = 0; i < n; i++)
+        cin >> a[i];
+    sort(a, a + n, greater<double>());
+    double low = 0, up = a[0], ans = 0;
+    fraction();
+    while (up - low >= eps)
+    {
+        double mid = (low + up) / 2.0;
+        double totalCan = 0.0, totalNeed = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            double donate = a[i] - mid;
+            if (donate > 0)
+            {
+                double minus = donate * k;
+                minus /= 100.0;
+                totalCan += donate - minus;
             }
-            cout << ans;
+            else if (donate < 0)
+            {
+                totalNeed += abs(donate);
+            }
         }
-        cout << "\n";
+        if (totalNeed <= totalCan)
+        {
+            low = mid;
+            ans = max(ans, mid);
+        }
+        else
+            up = mid;
     }
+    cout << ans << "\n";
 }

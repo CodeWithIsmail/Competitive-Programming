@@ -61,45 +61,15 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        ll n, i, x = -1, y = -1;
+        cin >> n;
+        for (i = 0; i < n; i++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            ll m, n;
+            cin >> m >> n;
+            x = max(x, m);
+            y = max(y, n);
         }
-        cout << "\n";
+        cout << 2 * (x + y) << "\n";
     }
 }

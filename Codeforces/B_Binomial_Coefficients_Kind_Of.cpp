@@ -6,7 +6,7 @@
 using namespace std;
 
 // Data Type:
-typedef long long ll;
+typedef int ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -39,7 +39,7 @@ ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 const double PI = acos(-1);
 const double eps = 1e-9;
 const int inf = 2000000000;
-const ll infLL = 9000000000000000000;
+// const ll infLL = 9000000000000000000;
 #define MOD 1000000007
 
 // Optimize cin cout:
@@ -54,52 +54,28 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+vl power;
+
+void powGen()
+{
+    ll st = 1, i;
+    for (i = 1; i <= 1e5; i++)
+    {
+        st = ((st % MOD) * (2 % MOD)) % MOD;
+        power.pb(st);
+    }
+}
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
-    {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
-        }
-        cout << "\n";
-    }
+    powGen();
+    ll nn, i;
+    cin >> nn;
+    ll n[nn], k[nn];
+    for (i = 0; i < nn; i++)
+        cin >> n[i];
+    for (i = 0; i < nn; i++)
+        cin >> k[i];
+    for (i = 0; i < nn; i++)
+        cout << power[k[i] - 1] << "\n";
 }

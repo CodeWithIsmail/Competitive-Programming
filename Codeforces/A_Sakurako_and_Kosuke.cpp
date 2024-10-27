@@ -61,45 +61,28 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        ll n, i, c = 0, x = 1, in = 1;
+        cin >> n;
+        while (abs(c) <= n)
+        // for (ll z = 0; z < 100000; z++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
+            // cout << c << "\n";
+            if (in == 1)
             {
-                v.pb(st);
-                st *= k;
+                in = 0;
+                c -= (2 * x - 1);
             }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
+            else
             {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
+                in = 1;
+                c += 2 * x - 1;
             }
-            cout << ans;
+            x++;
         }
+        if (in == 0)
+            cout << "Sakurako";
+        else
+            cout << "Kosuke";
         cout << "\n";
     }
 }

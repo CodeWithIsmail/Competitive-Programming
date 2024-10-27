@@ -57,49 +57,17 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
+    fraction();
     ll t;
     cin >> t;
-    while (t--)
+    for (ll z = 1; z <= t; z++)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
+        cout << "Case " << z << ": ";
+        double ab, ac, bc, k;
+        cin >> ab >> ac >> bc >> k;
 
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
-        }
-        cout << "\n";
+        double ad = sqrt(((k * sqrt(((ab + ac + bc) / 2) * (((ab + ac + bc) / 2) - ab) * (((ab + ac + bc) / 2) - ac) * (((ab + ac + bc) / 2) - bc))) / (k + 1)) / (sqrt(((1 + ac / ab + bc / ab) / 2) * (((1 + ac / ab + bc / ab) / 2) - 1) * (((1 + ac / ab + bc / ab) / 2) - ac / ab) * (((1 + ac / ab + bc / ab) / 2) - bc / ab))));
+
+        cout << ad << "\n";
     }
 }

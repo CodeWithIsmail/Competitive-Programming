@@ -34,7 +34,18 @@
         "initializer_list": "cpp",
         "xstring": "cpp",
         "xutility": "cpp",
-        "format": "cpp"
+        "format": "cpp",
+        "xiosbase": "cpp",
+        "algorithm": "cpp",
+        "limits": "cpp",
+        "iterator": "cpp",
+        "xmemory": "cpp",
+        "atomic": "cpp",
+        "ios": "cpp",
+        "exception": "cpp",
+        "istream": "cpp",
+        "memory": "cpp",
+        "streambuf": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

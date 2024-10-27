@@ -54,6 +54,29 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 2e4 + 12;
+vl adjList[mx];
+map<ll, bool> vis;
+ll color1 = 0, total = 0;
+void dfs(ll cur, ll clr)
+{
+    vis[cur] = true;
+    if (clr == 1)
+        color1++;
+    total++;
+    ll newClr;
+    if (clr == 1)
+        newClr = 2;
+    else
+        newClr = 1;
+    for (auto x : adjList[cur])
+    {
+        if (!vis[x])
+        {
+            dfs(x, newClr);
+        }
+    }
+}
 int main()
 {
     optimize();
@@ -61,45 +84,32 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        ll m, i, ans = 0;
+        cin >> m;
+        set<ll> st;
+        for (i = 0; i < m; i++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            ll u, v;
+            cin >> u >> v;
+            adjList[u].pb(v);
+            adjList[v].pb(u);
+            st.insert(u);
+            st.insert(v);
         }
-        cout << "\n";
+        for (auto x : st)
+        {
+            if (!vis[x])
+            {
+                cout << x << " ";
+                color1 = 0, total = 0;
+                dfs(x, 1);
+                cout << color1 << " " << total;
+                ans += max(color1, total - color1);
+            }
+        }
+        cout << ans << "\n";
+          vis.clear();
     }
+  
+    
 }

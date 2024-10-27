@@ -54,52 +54,40 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 52;
+bool vis[mx];
+vl adList[mx];
+void dfs(ll cur)
+{
+    vis[cur] = true;
+    for (auto x : adList[cur])
+    {
+        if (!vis[x])
+        {
+            dfs(x);
+        }
+    }
+}
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n, m, i, count = 0;
+    cin >> n >> m;
+    for (i = 1; i <= m; i++)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
-        }
-        cout << "\n";
+        ll u, v;
+        cin >> u >> v;
+        adList[u].pb(v);
+        adList[v].pb(u);
     }
+    for (i = 1; i <= n; i++)
+    {
+        if (!vis[i])
+        {
+            dfs(i);
+            count++;
+        }
+    }
+    ll ans = powl(2, n - count);
+    cout << ans;
 }

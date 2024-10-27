@@ -61,45 +61,45 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
+        ll n, k, i, ans = 0, temp;
         cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        map<ll, ll> count;
+        vvl vv;
+        vl tem;
+        for (i = 0; i < n; i++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
+            cin >> temp;
+            count[temp]++;
+        }
+        ll last = -1;
+        tem.pb(0);
+        for (auto x : count)
+        {
+            if (last == -1)
+                tem.pb(x.second);
+            else
             {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
+                if (x.first == last + 1)
+                    tem.pb(x.second);
                 else
                 {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
+                    vv.pb(tem);
+                    tem.clear();
+                    tem.pb(0);
+                    tem.pb(x.second);
                 }
-                // break;
             }
-            cout << ans;
+            last = x.first;
         }
-        cout << "\n";
+        vv.pb(tem);
+        for (auto x : vv)
+        {
+            ll upto = x.size() - 1;
+            for (i = 1; i < x.size(); i++)
+                x[i] += x[i - 1];
+            for (i = 1; i < x.size(); i++)
+                ans = max(ans, x[min(upto, i + k - 1)] - x[i - 1]);
+        }
+        cout << ans << "\n";
     }
 }

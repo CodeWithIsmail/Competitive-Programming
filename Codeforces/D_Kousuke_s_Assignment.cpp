@@ -61,45 +61,27 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
-        {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
+        ll n;
+        cin >> n;
+        vl a(n + 1);
+        ll count = 0;
+        map<ll, ll> last;
+        ll current_prefix = 0;
+        last[0] = 0;
 
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
+        for (ll i = 1; i <= n; i++)
+        {
+            cin >> a[i];
+            current_prefix += a[i];
+            if (last.find(current_prefix) != last.end())
+            {
+                count++;
+                last.clear();
             }
-            cout << ans;
+            last[current_prefix] = i;
         }
-        cout << "\n";
+
+        cout << count << "\n";
     }
+    return 0;
 }

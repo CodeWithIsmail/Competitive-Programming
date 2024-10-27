@@ -54,6 +54,20 @@ const ll infLL = 9000000000000000000;
     cout.precision(10);           \
     cout.setf(ios::fixed, ios::floatfield);
 
+const ll mx = 1e6 + 12;
+bool vis[mx];
+vvl adList(mx);
+ll coun = 0;
+void dfs(ll current)
+{
+    coun++;
+    vis[current] = true;
+    for (auto x : adList[current])
+    {
+        if (!vis[x])
+            dfs(x);
+    }
+}
 int main()
 {
     optimize();
@@ -61,45 +75,31 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        if (k == 1)
-            cout << n;
-        else
+        memset(vis, false, sizeof(vis));
+        ll n, i, ans = 0;
+        cin >> n;
+        ll a[n + 1], index[n + 1];
+        for (i = 1; i <= n; i++)
         {
-            vl v;
-            ll st = 1, ans = 0;
-            while (st <= n)
-            {
-                v.pb(st);
-                st *= k;
-            }
-            // for (auto x : v)
-            //     cout << x << " ";
-            // cout << "\n";
-            while (n > 0)
-            {
-                ll ind = lower_bound(all(v), n) - v.begin();
-                // cout << ind << " ";
-                if (v[ind] == n)
-                {
-                    cout << n << " ";
-                    n -= v[ind];
-
-                    ans++;
-                }
-                else
-                {
-                    ll div = n / v[ind - 1];
-                    ll target = div * v[ind - 1];
-                    cout << target << " ";
-                    n -= target;
-                    ans += div;
-                }
-                // break;
-            }
-            cout << ans;
+            cin >> a[i];
+            index[a[i]] = i;
         }
-        cout << "\n";
+        for (i = 1; i <= n; i++)
+        {
+            adList[i].clear();
+            if (a[i] == i || a[a[i]] == i)
+                continue;
+            adList[i].pb(index[i]);
+        }
+        for (i = 1; i <= n; i++)
+        {
+            if (!vis[i])
+            {
+                dfs(i);
+                ans += (coun - 1) / 2;
+                coun = 0;
+            }
+        }
+        cout << ans << "\n";
     }
 }
