@@ -1,0 +1,31 @@
+team => 3 members, 1+ coder, 1+ mathematician
+student => coder, mathematician, none
+
+
+lower, upper, mid 
+
+lower=0 
+upper=1e8
+
+mid=100
+
+coder=100
+mathematician=100
+coder/mathematician/none=100
+
+
+lower=mid+1;
+mid=500
+
+coder=600
+mathematician=500
+none=300
+
+
+coder=100
+mathematician=0
+none=300
+
+upper=mid
+
+
