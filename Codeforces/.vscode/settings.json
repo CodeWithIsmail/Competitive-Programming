@@ -45,7 +45,8 @@
         "exception": "cpp",
         "istream": "cpp",
         "memory": "cpp",
-        "streambuf": "cpp"
+        "streambuf": "cpp",
+        "xlocale": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
