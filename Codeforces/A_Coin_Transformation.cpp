@@ -40,7 +40,7 @@ const double PI = acos(-1);
 const double eps = 1e-9;
 const int inf = 2000000000;
 const ll infLL = 9000000000000000000;
-#define MOD 1000000007
+#define MOD 1000000007;
 
 // Optimize cin cout:
 #define optimize()                \
@@ -61,7 +61,8 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        ll n;
+        cin >> n;
+        cout << (1LL << (2 * ((int)log2(n) / 2))) << "\n";
     }
 }

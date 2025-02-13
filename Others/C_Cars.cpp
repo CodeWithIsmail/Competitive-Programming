@@ -57,11 +57,41 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+    ll n;
+    cin >> n;
+    string a;
+    cin >> a;
+    ll q;
+    cin >> q;
+    while (q--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        ll z, x, y;
+        cin >> z >> x >> y;
+        ll count = 0;
+        ll if (z == 1)
+        {
+            if (count % 2)
+            {
+                if (x > n && y > n)
+                {
+                    x -= n;
+                    y -= n;
+                }
+                else if (x <= n && y <= n)
+                {
+                    x += n;
+                    y += n;
+                }
+                else
+                {
+                }
+            }
+
+            //  swap(a[x],a[y]);
+        }
+        else
+        {
+            count++;
+        }
     }
 }

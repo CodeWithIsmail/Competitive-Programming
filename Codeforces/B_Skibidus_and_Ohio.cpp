@@ -61,7 +61,18 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        string a;
+        cin >> a;
+        bool ans = true;
+        for (ll i = 0; i < a.size() - 1; i++)
+        {
+            if (a[i] == a[i + 1])
+                ans = false;
+        }
+        if (ans)
+            cout << a.size();
+        else
+            cout << 1;
+        cout << "\n";
     }
 }

@@ -57,11 +57,28 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll t;
-    cin >> t;
-    while (t--)
+
+    ll n, mx, avg, i, sum = 0, ans = 0;
+    cin >> n >> mx >> avg;
+    vpl v;
+    for (i = 0; i < n; i++)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        ll got, need;
+        cin >> got >> need;
+        v.pb({need, mx - got});
+        sum += got;
     }
+    sort(all(v));
+    ll total = avg * n;
+    ll extra = total - sum;
+    for (auto x : v)
+    {
+        if (extra <= 0)
+            break;
+        ll mn = min(extra, x.second);
+        ll cost = x.first * mn;
+        ans += cost;
+        extra -= mn;
+    }
+    cout << ans << "\n";
 }

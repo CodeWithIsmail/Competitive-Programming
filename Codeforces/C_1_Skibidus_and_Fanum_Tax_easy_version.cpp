@@ -61,7 +61,47 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        ll n, i, m, x;
+        cin >> n >> m;
+        ll a[n];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        cin >> x;
+        for (i = 0; i < n; i++)
+        {
+            if (i == 0)
+            {
+                ll temp = x - a[i];
+                if (temp < a[i])
+                {
+                    a[i] = temp;
+                }
+            }
+            else
+            {
+                ll temp = x - a[i];
+                ll temp2 = 1e18;
+                if (a[i] >= a[i - 1])
+                    temp2 = a[i];
+
+                if (temp >= a[i - 1])
+                {
+                    temp = min(temp, temp2);
+                }
+                else
+                    temp = a[i];
+
+                a[i] = temp;
+            }
+        }
+        // for (i = 0; i < n; i++)
+        // {
+        //     cout << a[i] << " ";
+        // }
+        // cout << "\n";
+        if (is_sorted(a, a + n))
+            cout << "YES\n";
+        else
+            cout << "NO\n";
     }
 }

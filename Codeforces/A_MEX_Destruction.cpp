@@ -61,7 +61,22 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        ll n, i, count = 0;
+        cin >> n;
+        ll a[n];
+        for (i = 0; i < n; i++)
+            cin >> a[i];
+        for (i = 0; i < n; i++)
+        {
+            if (a[i])
+            {
+                count++;
+                while (i < n && a[i])
+                    i++;
+                i--;
+            }
+        }
+        count = min(2ll, count);
+        cout << count << "\n";
     }
 }

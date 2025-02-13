@@ -61,7 +61,9 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll m, a, b, c, ac = min(m, a), bc = min(b, m), rem = max(0ll, m - ac) + max(0ll, m - bc), cc = min(rem, c);
-        cout << ac + bc + cc << "\n";
+        string a;
+        cin >> a;
+        a = a.substr(0, a.length() - 2) + "i";
+        cout << a << "\n";
     }
 }

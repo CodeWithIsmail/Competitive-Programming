@@ -57,27 +57,17 @@ const ll infLL = 9000000000000000000;
 int main()
 {
     optimize();
-    ll n, k, i, j, x, ans = 0;
+    ll n, k, i, j, x;
     cin >> n >> k;
-    ll v[k];
+    set<ll> st;
     for (i = 0; i < k; i++)
     {
-        cin >> v[i];
-        ans += n / v[i];
-    }
-    for (i = 1; i < (1 << k); i++)
-    {
-        ll mul = 1, count = 0;
-        for (j = 0; j < k; j++)
+        cin >> x;
+        for (j = x; j <= n; j += x)
         {
-            if (i & (1 << j))
-            {
-                count++;
-                mul *= v[j];
-            }
+            st.insert(j);
         }
-        if (count > 1)
-            ans -= n / mul;
     }
-    cout << ans << " ";
+
+    cout << st.size() << " ";
 }
