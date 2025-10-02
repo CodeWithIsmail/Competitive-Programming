@@ -61,45 +61,39 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n, k, i;
-        cin >> n >> k;
-        ll a[n], b[n];
+        ll n, i;
+        bool ans = true;
+        cin >> n;
+        ll a[n];
         for (i = 0; i < n; i++)
             cin >> a[i];
-        set<ll> target;
-        for (i = 0; i < n; i++)
+        ll dif = a[1] - a[0];
+        for (i = 1; i < n; i++)
         {
-            cin >> b[i];
-            if (b[i] >= 0)
-                target.insert(a[i] + b[i]);
-        }
-        if (target.size() == 0)
-        {
-            cout << *min_element(a, a + n) + k - *max_element(a, a + n) + 1;
-        }
-        else
-        {
-            if (target.size() > 1)
-                cout << 0;
-            else
+            if (a[i] - a[i - 1] != dif)
             {
-                ll tar = *target.begin();
-                bool ans = true;
-                for (i = 0; i < n; i++)
-                {
-                    ll need = tar - a[i];
-                    if (need > k || need < 0)
-                    {
-                        ans = false;
-                        break;
-                    }
-                }
-                if (ans)
-                    cout << 1;
-                else
-                    cout << 0;
+                ans = false;
+                break;
             }
         }
-        cout << "\n";
+        if (ans)
+        {
+            set<ll> s;
+            for (i = 0; i < n; i++)
+            {
+                if (dif < 0)
+                    a[i] -= -1 * dif * (n - i);
+                else
+                    a[i] -= dif * (i + 1);
+                s.insert(a[i]);
+            }
+            if (s.size() != 1 || *s.begin() < 0 || *s.begin() % (n + 1))
+                ans = false;
+        }
+
+        if (ans)
+            cout << "yes\n";
+        else
+            cout << "no\n";
     }
 }

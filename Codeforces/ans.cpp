@@ -58,9 +58,22 @@ int main()
 {
     optimize();
     ll t;
-    cin >> t;
-    while (t--)
-    {
-        
+    cin>>t;
+    while(t--){
+        ll a,b,x,y;
+        cin>>a>>b>>x>>y;
+        if(a==b) cout<<0<<"\n";
+        else if(a<b){
+            if(x<=y) cout<<(b-a)*x<<"\n";
+            else{
+
+            }
+            while(a!=b){
+                ll temp=a^1;
+                if(temp>a)
+
+            }
+        }
+      
     }
 }
